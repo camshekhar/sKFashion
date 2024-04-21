@@ -13,6 +13,7 @@ urlpatterns = [
      
     # Products and Other URLs....
     path('productDetails/<str:subCategory>/', views.productDetails),
+    path('feedback/<str:prod_id>/', views.feedback),
     path('categories/', views.categories),
     path('popularProducts/', views.popularProducts),  
     path('subCategory/<str:category>/', views.subCategory),    
@@ -22,6 +23,7 @@ urlpatterns = [
     path('deleteCartItem/<str:id>/', views.deleteCartItem),   
     path('orderSummary/', views.cart),
     path('checkout/', views.checkout),
+
      
 
 ]

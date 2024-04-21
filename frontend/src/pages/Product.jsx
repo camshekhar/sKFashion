@@ -10,9 +10,12 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import { getToken } from "../services/LocalStorageService";
+import Feedbacks from "../components/home/Feedbacks";
+
 
 const Container = styled.div``;
 const Wrapper = styled.div`
+margin: 0 30px;
   padding: 50px;
   display: flex;
   ${mobile({ padding: "10px", flexDirection: "column" })}
@@ -27,8 +30,8 @@ const Image = styled.img`
   align-items: flex-end;
   justify-content: flex-end;
   text-align: right;
-  width: 100%;
-  height: 275px;
+  width: 80%;
+  max-height: 350px;
   object-fit: cover;
   ${mobile({ height: "250px" })}
 `;
@@ -147,6 +150,7 @@ const Ic = styled.button`
 `;
 const Button = styled.button`
   margin-top: 20px;
+  margin-bottom: 30px;
   padding: 10px;
   border: solid 2px teal;
   background-color: white;
@@ -161,11 +165,12 @@ const Button = styled.button`
   }
 `;
 const Product = () => {
-  const [product, setProduct] = useState([]);
+  const [{id, title, image, color, size, price, category, desc, stockCount}, setProduct] = useState([]);
   const { product_slug } = useParams();
   const [quantity, setQuantity] = useState(1);
   let navigate = useNavigate();
   const { access_token } = getToken();
+
   useEffect(() => {
     async function getProduct() {
       try {
@@ -173,16 +178,18 @@ const Product = () => {
           `/api/productDetails/${product_slug}`
         );
         setProduct(product.data);
-        // console.log(product.data);
-        // console.log(product.size)
       } catch (error) {
         console.log(error);
       }
+      
     }
     getProduct();
-    // console.log(product.size)
+
   }, [product_slug]);
 
+  localStorage.setItem("prod_id", id);
+
+  // console.log(feeds)
   const handleDecrement = () => {
     if (quantity > 1) {
       setQuantity((prevCount) => prevCount - 1);
@@ -199,27 +206,27 @@ const Product = () => {
     e.preventDefault();
 
     const data = {
-      id: product.id,
-      title: product.title,
-      color: product.color,
-      size: product.size,
-      image: product.image,
-      price: product.price,
+      id: id,
+      title: title,
+      color: color,
+      size: size,
+      image: image,
+      price: price,
       quantity: quantity,
     };
     axios.post(`/api/addtoCart/`, data).then((res) => {});
 
     if (access_token) {
-      swal("Item Added to Cart", `${product.title} Successfully Added to your cart.`, "success");
+      swal("Item Added to Cart", `${title} Successfully Added to your cart.`, "success");
       navigate("/cart");
     }else{
-      swal("Login to Proceed", `${product.title} Successfully Added to Cart.`, "warning");
+      swal("Login to Proceed", `${title} Successfully Added to Cart.`, "warning");
     }
   };
 
   // eslint-disable-next-line
   var avail_stock;
-  if (product.stockCount > 0) {
+  if (stockCount > 0) {
     avail_stock = (
       <AddContainer>
         <InStock>In Stock</InStock>
@@ -232,12 +239,17 @@ const Product = () => {
           <Ic>
             <Icon.PlusSquare onClick={handleIncrement} />
           </Ic>
+          {
+
+          }
         </AmountContainer>
         {
-          product.id 
+
         }
         <Button onClick={submitAddtoCart}>ADD TO CART</Button>
+
       </AddContainer>
+      
     );
   } else {
     avail_stock = <OutStock>Out of Stock</OutStock>;
@@ -250,15 +262,17 @@ const Product = () => {
         <Navbar />
         <Announcement />
         <Wrapper>
+       
           <ImageContainer>
-            <Image src={product.image} />
+            <Image src={image} />
           </ImageContainer>
           <InfoContainer>
-            <Title>{product.title}</Title>
+            <Title>{title}</Title>
             <Desc>
-              {product.category} / {product.desc}
+              {category} / {desc}
             </Desc>
-            <Price>&#8377;{product.price}</Price>
+
+            <Price>&#8377;{price}</Price>
             <FilterContainer>
               <Filter>
                 <FilterText>Color:</FilterText>
@@ -271,19 +285,24 @@ const Product = () => {
                 <FilterText>Size:</FilterText>
 
                 <Select defaultValue={"M"}>
-                  <Option>L</Option>
-                  <Option>M</Option>
+                  <Option value={"L"}>L</Option>
+                  <Option value={"M"}>M</Option>
 
-                  <Option>S</Option>
-                  <Option>XS</Option>
+                  <Option value={"S"}>S</Option>
+                  <Option value={"XS"}>XS</Option>
                 </Select>
               </Filter>
             </FilterContainer>
 
             {avail_stock}
-          </InfoContainer>
-        </Wrapper>
+            <hr />
+       <Feedbacks/>
 
+          </InfoContainer>
+      
+
+        </Wrapper>
+   
         <Newsletter />
         <Footer />
       </Container>

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category,SubCategory, Product, Cart, OrderSummary, User
+from .models import Category,SubCategory, Product, Cart, OrderSummary, User, Feedback
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     # To confirm password field in Registration request.
@@ -73,4 +73,9 @@ class CartSerializer(serializers.ModelSerializer):
 class OrderSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderSummary
+        fields = '__all__'
+
+class FeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feedback
         fields = '__all__'

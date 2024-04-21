@@ -130,4 +130,25 @@ class OrderSummary(models.Model):
     shippingCharge = models.CharField(max_length= 100, default="100")
     total = models.CharField(max_length=100)   
 
+# class PopularProducts(models.Model):
+#     subCategory = models.ForeignKey(SubCategory, on_delete=models.DO_NOTHING, default="ffsf")
+#     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, default="dfd")
+#     title = models.CharField(max_length= 100)
+#     desc = models.CharField(max_length= 200)
+#     color = models.CharField(max_length= 100)
+#     size = models.CharField(max_length= 100)
+#     image  = models.CharField(max_length= 300)
+#     price = models.CharField(max_length= 100, default="0")
+#     stockCount = models.IntegerField(default="0")
+#     feedback = models.ForeignKey(Feedback., on_delete=models.DO_NOTHING, default="dfd")
+
     
+#     def __str__(self):
+#         return self.title
+
+class Feedback(models.Model):
+    id = models.IntegerField(primary_key = True)
+    prod_id = models.ForeignKey(Product, on_delete=models.DO_NOTHING, default='0')
+    cust_id = models.ForeignKey(User, on_delete=models.DO_NOTHING, default='0')
+    rating = models.IntegerField(default='0')
+    comment = models.CharField(max_length= 100) 

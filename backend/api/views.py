@@ -1,6 +1,6 @@
 from rest_framework.response import Response
-from .models import Category, SubCategory, Product, Cart, OrderSummary, User
-from .serializers import ProductSerializer, CategorySerializer, SubCategorySerializer, CartSerializer, OrderSummarySerializer, UserChangePasswordSerializer, UserLoginSerializer, UserProfileSerializer, UserRegistrationSerializer
+from .models import Category, SubCategory, Product, Cart, OrderSummary, User, Feedback
+from .serializers import ProductSerializer, CategorySerializer, SubCategorySerializer, CartSerializer, OrderSummarySerializer, UserChangePasswordSerializer, UserLoginSerializer, UserProfileSerializer, UserRegistrationSerializer, FeedbackSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -62,6 +62,7 @@ def userProfile(request):
 def productDetails(request, subCategory):
     product = Product.objects.get(subCategory = subCategory)
     serializer = ProductSerializer(product, many= False)
+    # print(serializer.data)
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -137,3 +138,12 @@ def orderSummary(request):
 
 def checkout(request):
     pass
+
+@api_view(['GET'])
+def feedback(request, prod_id):
+    
+    feedbacks = Feedback.objects.filter(prod_id = prod_id)
+    # print(feedbacks)
+    serializer = FeedbackSerializer(feedbacks, many= True)
+    print(serializer.data)
+    return Response(serializer.data)

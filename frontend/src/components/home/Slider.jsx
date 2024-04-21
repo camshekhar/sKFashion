@@ -19,7 +19,8 @@ const Container = styled.div`
 const Arrow = styled.div`
   width: 50px;
   height: 50px;
-  background-color: #fbbcb8;
+  background-color: #2f1604;
+  color: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -33,6 +34,10 @@ const Arrow = styled.div`
   cursor: pointer;
   opacity: 0.5;
   z-index: 3;
+
+  :hover{
+    background-color: #fd4d2a;
+  }
 `;
 
 const Wrapper = styled.div`
