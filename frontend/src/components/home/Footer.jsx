@@ -2,6 +2,7 @@ import styled from "styled-components";
 import * as Icon from "react-bootstrap-icons";
 import {mobile} from "../../responsive";
 import { Link } from "react-router-dom";
+import payImg from "../../images/pay.png"
 
 const Container = styled.div`
     display: flex;
@@ -104,12 +105,17 @@ const Payment = styled.img`
     left: 0;
 `;
 const Footer = () => {
+    const menFashion = "Men's Wear";
+    const womenFashion = "Women's Wear";
+    const accessories = "Accessories";
+
+
   return (
     <>
       <Container>
           <Left>
-              <Logo>sKart</Logo>
-              <Desc>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus reprehenderit pariatur, doloremque voluptates nisi?</Desc>
+              <Logo>SkFashion</Logo>
+              <Desc>“SkFashion” is a web application designed for online selling of Fashion products (like Clothing, Footwear, and apparel) for both Men and Women. </Desc>
               <SocialContainer>
                   <SocialIcon color="3B5999">
                       <Icon.Facebook/>
@@ -130,9 +136,9 @@ const Footer = () => {
               <List>
                   <ListItem><Link to="/" style={{textDecoration: "none", color: "#fff"}}>Home</Link></ListItem>
                   <ListItem><Link to="/cart" style={{textDecoration: "none", color: "#fff"}}>Cart</Link></ListItem>
-                  <ListItem>Men's Fashion</ListItem>
-                  <ListItem>Women's Fashion</ListItem>
-                  <ListItem>Accessories</ListItem>
+                  <ListItem><Link to={`/${menFashion}`} style={{textDecoration: "none", color: "#fff"}}>Men's Fashion</Link></ListItem>
+                  <ListItem><Link to={`/${womenFashion}`} style={{textDecoration: "none", color: "#fff"}}>Women's Fashion</Link></ListItem>
+                  <ListItem><Link to={`/${accessories}`} style={{textDecoration: "none", color: "#fff"}}>Accessories</Link></ListItem>
                   <ListItem><Link to="/login" style={{textDecoration: "none", color: "#fff"}}>My Account</Link></ListItem>
                   <ListItem>Order Tracking</ListItem>
                   <ListItem>Wishlist</ListItem>
@@ -145,15 +151,15 @@ const Footer = () => {
           <Right>
               <Title>Contact</Title>
               <ContactItem>
-                 <Icon.GeoAltFill style={{marginRight:"10px"}}/> Patna, Bihar - 800020
+                 <Icon.GeoAltFill style={{marginRight:"10px"}}/> Akurdi, Pune - 411035
               </ContactItem>
               <ContactItem>
                <Icon.TelephoneForwardFill style={{marginRight:"10px"}}/> +91-<a href="tel:9999999999" style={{textDecoration: "None"}}>9999999999</a>
               </ContactItem>
               <ContactItem>
-              <Icon.EnvelopeOpenFill style={{marginRight:"10px"}}/><a href="mailto:contact@skart.com" style={{textDecoration: "None"}}>contact@skart.com</a>
+              <Icon.EnvelopeOpenFill style={{marginRight:"10px"}}/><a href="mailto:contact@skfashion.com" style={{textDecoration: "None"}}>contact@skfashion.com</a>
               </ContactItem>
-              <Payment src="https://jamiepharma.com/wp-content/uploads/2021/11/48-480088_payment-method-credit-card-master-card-hd-png.png"/>
+              <Payment src={payImg}/>
           </Right>
       </Container>
     </>

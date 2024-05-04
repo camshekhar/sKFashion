@@ -234,14 +234,21 @@ const Cart = () => {
       updateCartQuantity(cart_id, "inc" )
   }
 
+  // const products = localStorage.getItem('product_data');
 
+
+  // const parsedData = JSON.parse(products);
+  // console.log(parsedData);
+  // setCartitems(parsedData);
 
   useEffect(() => {
     async function getCartItems() {
       try {
         const cartitems = await axios.get("/api/cart/");
+        // const cartitems = await localStorage.getItem('product_data');
+
         setCartitems(cartitems.data);
-        // console.log(cartitems.data);
+        // console.log(cartitems);
       } catch (error) {
         console.log(error);
       }

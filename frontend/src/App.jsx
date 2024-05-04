@@ -13,6 +13,7 @@ import {
   Route,
 } from "react-router-dom";
 import ChangePassword from './pages/ChangePassword';
+import SearchResults from './pages/SearchResults';
 
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
           <Route exact path="/" element={<Home/>}/>
           <Route path="/login" element={!access_token ? <Login/> : <Home/>}/>
           <Route path="/register" element={<Register/>} />
+          <Route path="/search/" element={<ProductList/>} />
           <Route path="/changePassword" element={!access_token ? <h1>404 - Page not Found..!!</h1> : <ChangePassword/>}/>
           <Route exact path="/:subcategory_slug/" element={<ProductList/>} />
           <Route exact path="/:subcategory_slug/:product_slug/" element={<Product/>} />

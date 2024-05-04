@@ -116,6 +116,7 @@ class Product(models.Model):
     
 class Cart(models.Model):
     id = models.CharField(max_length= 100, primary_key = True)
+    # cust_id = models.ForeignKey(User, models.CASCADE, default='0')
     title = models.CharField(max_length= 100)
     color = models.CharField(max_length= 100)
     size = models.CharField(max_length= 20)
@@ -124,7 +125,9 @@ class Cart(models.Model):
     price = models.CharField(max_length= 100, default="0")
    
 class OrderSummary(models.Model):
-    id = models.OneToOneField(Cart, models.CASCADE , primary_key= True)                  
+    id = models.CharField(max_length=50, primary_key= True)
+    # cust_id = models.ForeignKey(User, models.CASCADE, default='null')   
+    products = models.CharField(max_length=50, default="null")               
     subTotal = models.CharField(max_length= 100)
     discount = models.CharField(max_length= 100)
     shippingCharge = models.CharField(max_length= 100, default="100")
@@ -152,3 +155,13 @@ class Feedback(models.Model):
     cust_id = models.ForeignKey(User, on_delete=models.DO_NOTHING, default='0')
     rating = models.IntegerField(default='0')
     comment = models.CharField(max_length= 100) 
+
+class Address(models.Model):
+    id = models.IntegerField(primary_key = True)
+    cust_id = models.ForeignKey(User, on_delete=models.CASCADE, default='0')
+    mobile = models.CharField(max_length=10, default="999999999")
+    street = models.CharField(max_length=100)
+    landmark = models.CharField(max_length=100)
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    pincode = models.CharField(max_length=6)

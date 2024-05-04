@@ -42,7 +42,7 @@ const Language = styled.div`
   ${mobile({ display: "none" })}
 `;
 
-const SearchContainer = styled.div`
+const SearchContainer = styled.form`
   border: 1px solid gray;
   border-radius: 6px;
   display: flex;
@@ -178,20 +178,26 @@ const CartBadge = styled.span`
 
 `;
 
+const SearchBtn = styled.button`
+  
+`;
+
 const Navbar = () => {
   const { access_token } = getToken();
   const {data, isSuccess} = useGetLoggedUserQuery(access_token);
   const [userData, setUserData] = useState({
-     email: "",
-     name: "",
-     fname: "",
-     lname: "",
-     username: ""
+    id: null,
+    email: "",
+    name: "",
+    fname: "",
+    lname: "",
+    username: ""
   });
 
   useEffect(() => {
     if (data && isSuccess) {
       setUserData({
+        id: data.id,
         email: data.email,
         fname: data.fname,
         lname: data.lname,
@@ -201,6 +207,7 @@ const Navbar = () => {
     }
   }, [data, isSuccess]);
  
+  localStorage.setItem("cust_id", userData.id);
 
   const [cartitems, setCartitems] = useState({});
   const navigate = useNavigate();
@@ -209,6 +216,9 @@ const Navbar = () => {
     async function getAllCategory() {
       try {
         const cartitems = await axios.get("/api/cart/");
+        // const cartitems = await localStorage.getItem('product_data');
+    
+
         setCartitems(cartitems.data);
         // console.log(cartitems.data);
       } catch (error) {
@@ -231,10 +241,13 @@ const Navbar = () => {
       e.preventDefault();
       dispatch(unSetUserToken({ access_token: null }))
       removeToken();
+      localStorage.clear();
       navigate('/');
       swal("Logout Success", "You Logged Out Successfully", "success");
+  }
 
-
+  const handleChange = (e) => {
+    navigate('/search?product=' + document.getElementById('search').value);
   }
   return (
     <>
@@ -244,15 +257,17 @@ const Navbar = () => {
         <LogoImg src={logo}/>
             <Logo>
               <Link to="/" style={{ textDecoration: "none", color: "black" }}>
-                 sKart
+                 SkFashion
               </Link>
             </Logo>
           </Center>
           <Left>
-            <Language>EN</Language>
+            {/* <Language>EN</Language> */}
             <SearchContainer>
-              <Input placeholder="Search.." />
+              <Input placeholder="Search.." id="search"/>
+              <SearchBtn type="submit" onClick={handleChange}>
               <Icon.Search style={{ color: "gray", fontSize: 16 }} />
+              </SearchBtn>
             </SearchContainer>
           </Left>
          

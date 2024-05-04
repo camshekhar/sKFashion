@@ -170,6 +170,7 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
   let navigate = useNavigate();
   const { access_token } = getToken();
+const cust_id = localStorage.getItem("cust_id");
 
   useEffect(() => {
     async function getProduct() {
@@ -207,6 +208,7 @@ const Product = () => {
 
     const data = {
       id: id,
+      // cust_id: cust_id,
       title: title,
       color: color,
       size: size,
@@ -214,8 +216,14 @@ const Product = () => {
       price: price,
       quantity: quantity,
     };
-    axios.post(`/api/addtoCart/`, data).then((res) => {});
 
+    // var temp_data = [data];
+    axios.post(`/api/addtoCart/`, data).then((res) => {});
+    // const parsedData = JSON.stringify(data);
+
+    // localStorage.setItem("product_data", parsedData);
+  
+    console.log(data);
     if (access_token) {
       swal("Item Added to Cart", `${title} Successfully Added to your cart.`, "success");
       navigate("/cart");

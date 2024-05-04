@@ -41,6 +41,8 @@ const Home = () => {
       <Hr/>
       <Categories />
       <Hr/>
+      <Caption>Trending Products</Caption>
+      <Hr/>
       <CatalogueSlider />
       <Hr/>
       <Caption>Popular Products</Caption>

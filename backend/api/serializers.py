@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category,SubCategory, Product, Cart, OrderSummary, User, Feedback
+from .models import Category,SubCategory, Product, Cart, OrderSummary, User, Feedback, Address
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     # To confirm password field in Registration request.
@@ -48,7 +48,7 @@ class UserChangePasswordSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['fname', 'lname', 'email', 'username']
+        fields = ['id', 'fname', 'lname', 'email', 'username']
                               
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -79,3 +79,14 @@ class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feedback
         fields = '__all__'
+
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = '__all__'
+
+# class SearchProductSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Product
+#         fields = '__all__'
+

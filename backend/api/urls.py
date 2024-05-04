@@ -14,6 +14,8 @@ urlpatterns = [
     # Products and Other URLs....
     path('productDetails/<str:subCategory>/', views.productDetails),
     path('feedback/<str:prod_id>/', views.feedback),
+    path('getUserAddress/<str:cust_id>/', views.getUserAddress),
+    path('searchResults/<str:slug>/', views.searchResults),
     path('categories/', views.categories),
     path('popularProducts/', views.popularProducts),  
     path('subCategory/<str:category>/', views.subCategory),    

@@ -1,12 +1,12 @@
 from rest_framework.response import Response
-from .models import Category, SubCategory, Product, Cart, OrderSummary, User, Feedback
-from .serializers import ProductSerializer, CategorySerializer, SubCategorySerializer, CartSerializer, OrderSummarySerializer, UserChangePasswordSerializer, UserLoginSerializer, UserProfileSerializer, UserRegistrationSerializer, FeedbackSerializer
+from .models import Category, SubCategory, Product, Cart, OrderSummary, User, Feedback, Address
+from .serializers import ProductSerializer, CategorySerializer, SubCategorySerializer, CartSerializer, OrderSummarySerializer, UserChangePasswordSerializer, UserLoginSerializer, UserProfileSerializer, UserRegistrationSerializer, FeedbackSerializer, ProductSerializer, AddressSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
-# Create your views here.
+from django.db.models import Q
 
 # Manually generate Token for Authentication.
 def get_tokens_for_user(user):
@@ -53,14 +53,21 @@ def userChangePassword(request):
 @permission_classes((IsAuthenticated, )) 
 def userProfile(request):  
     userSerializer = UserProfileSerializer(request.user)
-    print(userSerializer.data)
+    # print(userSerializer.data)
     return Response(userSerializer.data, status=status.HTTP_200_OK)
    
+@api_view(['GET'])
+def getUserAddress(request, cust_id):
     
+    addresses = Address.objects.filter(cust_id = cust_id)
+    serializer = AddressSerializer(addresses, many= True)
+    print(serializer.data)
+    return Response(serializer.data) 
       
 @api_view(['GET'])
 def productDetails(request, subCategory):
-    product = Product.objects.get(subCategory = subCategory)
+    filter_conditions = Q(subCategory=subCategory) or Q(title=subCategory)
+    product = Product.objects.get(filter_conditions)
     serializer = ProductSerializer(product, many= False)
     # print(serializer.data)
     return Response(serializer.data)
@@ -73,14 +80,16 @@ def categories(request):
 
 @api_view(['GET'])
 def subCategory(request, category ):
-    categories = SubCategory.objects.filter(category = category)
+    filter_conditions = Q(category=category) or Q(title=category)
+    categories = SubCategory.objects.filter(filter_conditions)
     serializer = SubCategorySerializer(categories, many=True)
+    # print(serializer.data)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def popularProducts(request):
-    products = SubCategory.objects.all()
-    serializer = SubCategorySerializer(products, many= True)
+    products = Product.objects.all()
+    serializer = ProductSerializer(products, many= True)
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -146,4 +155,23 @@ def feedback(request, prod_id):
     # print(feedbacks)
     serializer = FeedbackSerializer(feedbacks, many= True)
     print(serializer.data)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def searchResults(request, slug):
+    # print(slug)
+    slug = slug.lower()
+    products = Product.objects.all()
+    search_results = []
+    # or slug == product.category.lower() or slug == product.subCategory.lower():
+    for product in products:
+        if slug in product.title.lower():
+            search_results.append(product)
+        # if re.search(slug,product.title.lower()):
+        #     search_results.append(product)
+
+    # print(slug)
+    # print(search_results)
+    serializer = ProductSerializer(search_results, many= True)
+    # print(serializer.data)
     return Response(serializer.data)

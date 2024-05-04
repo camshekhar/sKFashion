@@ -113,7 +113,7 @@ const PopularProducts = () => {
               </Icons>
               <Icons>
                 <Link
-                  to={`#`}
+                  to={`/${item.category}/${item.subCategory}`}
                   style={{ textDecoration: "none", color: "black" }}
                 >
                   <Icon.Search />{" "}

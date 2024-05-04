@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Category, SubCategory, Cart, OrderSummary, User, Feedback
+from .models import Product, Category, SubCategory, Cart, OrderSummary, User, Feedback, Address
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 # Register your models here.
@@ -59,4 +59,9 @@ class FeedbackAdmin(admin.ModelAdmin):
     list_display = ('id', 'cust_id', 'prod_id', 'rating', 'comment')
    
 admin.site.register(Feedback, FeedbackAdmin) 
+
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ('id', 'cust_id', 'street', 'city', 'state', 'pincode')
+   
+admin.site.register(Address, AddressAdmin)
 

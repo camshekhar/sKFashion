@@ -7,7 +7,7 @@ import Products from "../components/home/Products";
 import {mobile} from "../responsive";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useSearchParams } from "react-router-dom";
 
 const Container = styled.div`
   
@@ -52,6 +52,29 @@ const Option = styled.option`
 const ProductList = () => {
   const [subCategories, setSubCategories] = useState([])
   const { subcategory_slug } = useParams();
+
+  const [product, setProduct] = useState([]);
+  const [searchParams] = useSearchParams();
+
+  const search_slug = searchParams.get('product')
+  // let navigate = useNavigate();
+
+  useEffect(() => {
+      async function getProduct() {
+      try {
+          const product = await axios.get(
+          `/api/searchResults/${search_slug}`
+          );
+          setProduct(product.data);
+      } catch (error) {
+          console.log(error);
+      }
+      
+      }
+      getProduct();
+
+  }, [search_slug]);
+  
   useEffect(()=>{
     
     async function getSubCategory(){
@@ -67,8 +90,58 @@ const ProductList = () => {
     getSubCategory();
   
   }, [subcategory_slug, ]);
-  return (
-    <>
+
+var prodList;
+    if (search_slug) {
+    prodList = ( 
+    <Container>
+        <Navbar/>
+        <Announcement/>
+
+        <Title>Product Results: {search_slug}</Title>
+        <FilterContainer>
+            <Filter>
+                <FilterText>Filter Products:</FilterText> 
+                <Select defaultValue={"Red"}>
+                    
+                    <Option>Red</Option>
+                    <Option>Blue</Option>
+                    <Option>Yellow</Option>
+                    <Option>Green</Option>
+                    <Option>Pink</Option>
+                    <Option>Black</Option>
+                    <Option>White</Option>
+
+                </Select>
+                <Select defaultValue={"M"}>
+                    <Option>XS</Option>
+                    <Option>S</Option>
+                    <Option>M</Option>
+                    <Option>L</Option>
+                    <Option>XL</Option>
+                    <Option>XXL</Option>
+                </Select>
+            </Filter>
+            <Filter>
+                <FilterText>Sort Products:</FilterText>
+                <Select defaultValue={"Popularity"}>
+                    <Option>Popularity</Option>
+                    <Option>Newest First</Option>
+                    <Option>Relevance</Option>
+                    <Option>Price (Low-High)</Option>
+                    <Option>Price (High-Low)</Option>
+                </Select>
+            </Filter>
+        </FilterContainer>
+        {product.map((item, i) => (
+          <Products item={item} key={i} />
+        ))}
+        <Newsletter/>
+        <Footer/>
+    </Container>
+    )
+  } else {
+    prodList = (
     <Container>
         <Navbar/>
         <Announcement/>
@@ -114,6 +187,12 @@ const ProductList = () => {
         <Newsletter/>
         <Footer/>
     </Container>
+    )
+  }
+
+  return (
+    <>
+     {prodList}
     </>
   )
 }

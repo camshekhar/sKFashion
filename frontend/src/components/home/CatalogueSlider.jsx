@@ -6,8 +6,10 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 const Container = styled.div`
   width: 100%;
-  height: 60vh;
+  height: 45vh;
   display: flex;
+  align-items: center;
+  /* justify-content: center; */
   position: relative;
   background-color: lightgray;
   overflow: hidden;
@@ -18,9 +20,10 @@ const Container = styled.div`
 
 const Arrow = styled.div`
   width: 50px;
-  height: 50px;
-  background-color: #fbbcb8;
-  border-radius: 50%;
+  height: 100%;
+  background-color: #230402;
+  color: white;
+  /* border-radius: 50%; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,10 +32,14 @@ const Arrow = styled.div`
   bottom: 0;
   left: ${(props) => props.direction === "left" && "10px"};
   right: ${(props) => props.direction === "right" && "10px"};
-  margin: auto;
+  margin: 0px;
   cursor: pointer;
-  opacity: 0.5;
+  opacity: 0.8;
   z-index: 3;
+
+  :hover{
+    background-color: #4f1511;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -42,11 +49,14 @@ const Wrapper = styled.div`
   justify-content: center;
   transform: translateX(${props=>props.slideIndex * -100}vw);
   transition: all 1s ease;
+  padding: 10px;
+  margin-top: 15px;
+  position: absolute;
 `;
 
 const Slide = styled.div`
-  width: 30vw;
-  height: 60vh;
+  width: 33.33vw;
+  height: 100%;
   display: inline-flex;
   align-items: center;
   background-color: #${(props) => props.bg};
@@ -59,8 +69,8 @@ const ImageContainer = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  height: 70%;
-  object-fit: cover;
+  height: 80%;
+  /* object-fit: cover; */
 `;
 
 const InfoContainer = styled.div`
@@ -76,7 +86,7 @@ const InfoContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 50px;
+  font-size: 30px;
   font-weight: 700;
 `;
 
@@ -98,26 +108,26 @@ const Button = styled.button`
   border: none;
 
   :hover{
-    border:2px solid #37251793;
+    background-color: #582804c8;
   }
   
 `;
 
 const CatalogueSlider = () => {
-  const [categories, setCategories] = useState([])
+  const [product, setProduct] = useState([])
   useEffect(()=>{
 
-    async function getAllCategory(){
+    async function getAllProduct(){
       try {
-        const categories = await axios.get("/api/popularProducts/")
-        setCategories(categories.data)
+        const products = await axios.get("/api/popularProducts/");
+        setProduct(products.data);
         // console.log(categories.data);
       } catch (error) {
         console.log(error)
         
       };
     };
-    getAllCategory();
+    getAllProduct();
   
   }, []);
   const [slideIndex, setSlideIndex] = useState(0);
@@ -137,7 +147,7 @@ const CatalogueSlider = () => {
       </Arrow>
 
       <Wrapper slideIndex={slideIndex} >
-        {categories.map((item, i) => (
+        {product.map((item, i) => (
           <Slide bg={item.bg} key={i}>
             <ImageContainer>
               <Image src={item.image}/>
@@ -147,7 +157,7 @@ const CatalogueSlider = () => {
               <Desc>
                 {item.desc}
               </Desc>
-              <Link to={`/${item.title}/`}><Button>Shop Now <Icon.ArrowRight /></Button></Link>
+              <Link to={`/${item.category}/${item.subCategory}/`}><Button>Shop Now <Icon.ArrowRight /></Button></Link>
             </InfoContainer>
           </Slide>
         ))}
