@@ -78,6 +78,7 @@ const FilterColor = styled.div`
   margin-left: 5px;
   width: 20px;
   height: 20px;
+  border: 2px solid gray;
   border-radius: 50%;
   background-color: ${(props) => props.color};
   cursor: pointer;
@@ -186,9 +187,9 @@ const cust_id = localStorage.getItem("cust_id");
     }
     getProduct();
 
-  }, [product_slug]);
+  }, [product_slug, stockCount]);
 
-  localStorage.setItem("prod_id", id);
+  // localStorage.setItem("prod_id", id);
 
   // console.log(feeds)
   const handleDecrement = () => {
@@ -208,7 +209,7 @@ const cust_id = localStorage.getItem("cust_id");
 
     const data = {
       id: id,
-      // cust_id: cust_id,
+      cust: cust_id,
       title: title,
       color: color,
       size: size,
@@ -223,7 +224,7 @@ const cust_id = localStorage.getItem("cust_id");
 
     // localStorage.setItem("product_data", parsedData);
   
-    console.log(data);
+    // console.log(data);
     if (access_token) {
       swal("Item Added to Cart", `${title} Successfully Added to your cart.`, "success");
       navigate("/cart");
@@ -284,10 +285,11 @@ const cust_id = localStorage.getItem("cust_id");
             <FilterContainer>
               <Filter>
                 <FilterText>Color:</FilterText>
-                <FilterColor color="black" />
+                <FilterColor color= {color} title= {color}/>
+                {/* <FilterColor color="black" />
                 <FilterColor color="blue" />
                 <FilterColor color="darkgreen" />
-                <FilterColor color="gray" />
+                <FilterColor color="gray" /> */}
               </Filter>
               <Filter>
                 <FilterText>Size:</FilterText>

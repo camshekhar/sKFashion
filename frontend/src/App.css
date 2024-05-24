@@ -1,0 +1,7 @@
+.btn-success{
+    background-color: teal !important;
+}
+
+.btn-success:hover{
+    background-color: rgb(25, 166, 166) !important;
+}

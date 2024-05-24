@@ -5,9 +5,11 @@ import Navbar from "../components/home/Navbar";
 import Footer from "../components/home/Footer";
 import Newsletter from "../components/home/Newsletter";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { mobile } from "../responsive";
 import * as Icon from "react-bootstrap-icons";
+import swal from "sweetalert";
+
 
 const Container = styled.div`
   display: flex;
@@ -95,14 +97,14 @@ const Form = styled.form`
   ${mobile({ margin: "20px 10px 0px 0px", height: "80vh" })}
 `;
 
-const FormData = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;
+// const FormData = styled.div`
+//   display: flex;
+//   flex-wrap: wrap;
+//   justify-content: center;
+//   align-items: center;
+//   margin-top: 10px;
+//   margin-bottom: 10px;
+// `;
 const Input = styled.input`
   display: flex;
   flex-wrap: wrap;
@@ -113,18 +115,18 @@ const Input = styled.input`
   border-radius: 5px;
   margin: 0px 10px 10px 0px;
 `;
-const TextArea = styled.textarea`
-  display: flex;
-  flex-wrap: wrap;
-  height: 60px;
-  min-width: 81%;
-  font-size: 0.8rem;
-  border: 1px solid orange;
-  border-radius: 5px;
-  margin: 10px;
-  margin-left: 0px;
-  ${mobile({ marginTop: "0px" })}
-`;
+// const TextArea = styled.textarea`
+//   display: flex;
+//   flex-wrap: wrap;
+//   height: 60px;
+//   min-width: 81%;
+//   font-size: 0.8rem;
+//   border: 1px solid orange;
+//   border-radius: 5px;
+//   margin: 10px;
+//   margin-left: 0px;
+//   ${mobile({ marginTop: "0px" })}
+// `;
 
 const SavedAddress = styled.div``;
 const Address = styled.p`
@@ -132,10 +134,30 @@ const Address = styled.p`
   padding-left: 15px;
   padding-right: 5px;
 `;
+
+
+const AddButton = styled.button`
+  width: 60%;
+  padding: 8px;
+  background-color: #d88304;
+  color: white;
+  font-weight: 600;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+
+  &:hover {
+    background-color: #ff5100;
+  }
+`;
+
 const Checkout = () => {
   const [cartitems, setCartitems] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const cust_id = localStorage.getItem("cust_id");
+  const navigate = useNavigate();
+
   var totalCartPrice = 0.0;
   var count = 1;
 
@@ -152,7 +174,7 @@ const Checkout = () => {
   useEffect(() => {
     async function getCartItems() {
       try {
-        const cartitems = await axios.get("/api/cart/");
+        const cartitems = await axios.get(`/api/cart/${cust_id}`);
         setCartitems(cartitems.data);
         // console.log(cartitems.data);
       } catch (error) {
@@ -160,7 +182,7 @@ const Checkout = () => {
       }
     }
     getCartItems();
-  }, []);
+  }, [cust_id]);
 
   useEffect(() => {
     async function getAddress() {
@@ -173,17 +195,111 @@ const Checkout = () => {
       }
     }
     getAddress();
-  }, [cust_id]);
+  }, [cust_id, addresses]);
   // console.log(cust_id);
 
   cartitems.map((item, i) => {
     return (totalCartPrice += item.price * item.quantity);
   });
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const actualData = {
+      id: Math.floor((Math.random() * 100) + 1),
+      cust: localStorage.getItem("cust_id"),
+      mobile: data.get('mobile'),
+      street: data.get('street'),
+      city: data.get('city'),
+      email: data.get('email'),
+      state: data.get('state'),
+      pincode: data.get('pincode'),
+      landmark: data.get('landmark'),
+    };
+   
+    console.log(actualData);
+
+    axios.post(`/api/addUserAddress/`, actualData).then((res) => {
+      if (res.data) {
+        swal("Address added Successfully", "Continue Your Shopping", "success");
+
+        navigate("/checkout");
+      }else{
+        swal("Error Adding New Address", "PLease Try Again", "warning");
+      }
+    });
+  
+  }
+
+  var savedAdd;
+
+  if (addresses.length > 0) {
+      savedAdd = ( 
+      <SavedAddress className="my-4">
+          <button
+            className="btn btn-warning mb-2"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseExample"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            Select Saved Address <Icon.CaretDownSquareFill />
+          </button>
+     
+        <div className="collapse  multi-collapse" id="collapseExample">
+          {addresses.map((address ,i) => (
+          <div className="card card-body" key={i}>
+            {add_id = address.id}
+
+            <Address>
+              <input type="checkbox" name="addSelect" id="addr" onClick={handleAddress}/>
+              <br />
+              <strong>Address:</strong> {address.street}, ({address.landmark}), {address.city},{" "}
+              {address.state} - {address.pincode}.<br />
+              <strong>Mobile No:</strong> {address.mobile}<br/>
+              <strong>Email:</strong> {address.email}
+
+            </Address>
+          </div>
+          ))}
+          <div className="mt-2 text-center">
+          <Link to={`/payment`}>
+        <MainButton style={{ width: "50%" }} onClick={localStorage.setItem('totalCartPrice', totalCartPrice)}>Pay Now</MainButton>
+      </Link>
+          </div>
+        </div>
+    
+      </SavedAddress>
+    )}
+    else{
+      savedAdd = (
+        <SavedAddress className="my-4">
+          <button
+            className="btn btn-warning mb-2"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseExample"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            Select Saved Address <Icon.CaretDownSquareFill />
+          </button>
+     
+        <div className="collapse  multi-collapse" id="collapseExample">
+          <p className="text-center">No Saved Address Found!</p>
+        </div>
+    
+      </SavedAddress>
+      )
+    }
+  
   return (
     <>
       <Announcement />
       <Navbar />
+      <hr/>
+      <h1 className="text-center text-decoration-underline mb-4">Checkout Page</h1>
       <Container>
         <Left>
           <Summary>
@@ -211,41 +327,9 @@ const Checkout = () => {
           </Summary>
         </Left>
         <Right>
-          <SavedAddress className="my-4">
-      
-              <button
-                className="btn btn-warning mb-2"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseExample"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-              >
-                Select Saved Address <Icon.CaretDownSquareFill />
-              </button>
-         
-            <div className="collapse  multi-collapse" id="collapseExample">
-              {addresses.map((address ,i) => (
-              <div className="card card-body" key={i}>
-                {add_id = address.id}
-
-                <Address>
-                  <input type="checkbox" name="addSelect" id="addr" onClick={handleAddress}/>
-                  <br />
-                  <strong>Address:</strong> {address.street}, ({address.landmark}), {address.city},{" "}
-                  {address.state} - {address.pincode}.<br />
-                  <strong>Mobile No:</strong> {address.mobile}
-                </Address>
-              </div>
-              ))}
-              <div className="mt-2 text-center">
-              <Link to={`#`}>
-            <MainButton style={{ width: "50%" }}>Pay Now</MainButton>
-          </Link>
-              </div>
-            </div>
-          </SavedAddress>
-
+        {savedAdd}
+        
+        
           <div>
           <button
                 className="btn btn-warning mb-2"
@@ -260,27 +344,22 @@ const Checkout = () => {
          
             <div className="collapse  multi-collapse" id="collapseExample">
               <div className="card card-body">
-              <Form>
+              <Form  onSubmit={handleSubmit}>
             <Title>
               <u>New Address</u>
             </Title>
-            <FormData>
-              <Input type={"phone"} placeholder="Phone Number" />
-              <Input type={"email"} placeholder="Email Address" />
-              <TextArea placeholder="Full Address" />
-              <Input placeholder="City" />
-              <Input placeholder="State" />
-              <Input placeholder="Pincode" />
-              <Link to={`#`}>
-                <MainButton>Place Order</MainButton>
-              </Link>
-            </FormData>
+            {/* <FormData> */}
+              <Input type={"phone"} name="mobile" placeholder="Phone Number" />
+              <Input type={"email"} name="email" placeholder="Email Address" />
+              <Input placeholder="Street" name="street" />
+              <Input placeholder="Landmarks" name="landmark" />
+              <Input placeholder="City"  name="city"/>
+              <Input placeholder="State"  name="state"/>
+              <Input placeholder="Pincode" name="pincode" />
+              <AddButton type="submit">Add Address</AddButton>
+            {/* </FormData> */}
           </Form>
-              <div className="mt-2 text-center">
-              <Link to={`#`}>
-            <MainButton style={{ width: "50%" }}>Pay Now</MainButton>
-          </Link>
-              </div>
+            
             </div>
           </div>
           </div>

@@ -215,6 +215,7 @@ const Cart = () => {
   const [cartitems, setCartitems] = useState([]);
   var totalCartPrice = 0.00;
   const navigate = useNavigate();
+  const cust_id = localStorage.getItem("cust_id");
 
 // Handling Increment and Decrement of products in Cart.
   const handleDecrement = (cart_id) => {
@@ -241,10 +242,11 @@ const Cart = () => {
   // console.log(parsedData);
   // setCartitems(parsedData);
 
+  // console.log(cust_id)
   useEffect(() => {
     async function getCartItems() {
       try {
-        const cartitems = await axios.get("/api/cart/");
+        const cartitems = await axios.get(`/api/cart/${cust_id}`);
         // const cartitems = await localStorage.getItem('product_data');
 
         setCartitems(cartitems.data);
@@ -255,7 +257,7 @@ const Cart = () => {
     }
     getCartItems();
     
-  }, [cartitems]);
+  }, [cust_id, cartitems]);
 
   function updateCartQuantity(cart_id, scope ){
    axios.put(`/api/updateCartQty/${cart_id}/${scope}/`).then(res =>{

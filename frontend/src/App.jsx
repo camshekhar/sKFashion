@@ -14,7 +14,9 @@ import {
 } from "react-router-dom";
 import ChangePassword from './pages/ChangePassword';
 import SearchResults from './pages/SearchResults';
-
+import Payment from './pages/Payment';
+import MyOrders from './pages/MyOrders';
+import "./App.css"
 
 const App = () => {
   const { access_token } = useSelector(state => state.auth);
@@ -32,6 +34,10 @@ const App = () => {
           <Route exact path="/:subcategory_slug/:product_slug/" element={<Product/>} />
           <Route path="/cart" element={!access_token ? <Login/> :<Cart/>}/>
           <Route path="/checkout" element={!access_token ? <Login/> :<Checkout/>} />
+          <Route path="/payment" element={!access_token ? <Login/> :<Payment/>} />
+          <Route path="/myOrders" element={!access_token ? <Login/> :<MyOrders/>} />
+
+
         </Routes>  
       </Router>
     </div>

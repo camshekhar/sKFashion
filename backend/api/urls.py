@@ -14,17 +14,24 @@ urlpatterns = [
     # Products and Other URLs....
     path('productDetails/<str:subCategory>/', views.productDetails),
     path('feedback/<str:prod_id>/', views.feedback),
+    path('addUserAddress/', views.addUserAddress),
     path('getUserAddress/<str:cust_id>/', views.getUserAddress),
     path('searchResults/<str:slug>/', views.searchResults),
     path('categories/', views.categories),
     path('popularProducts/', views.popularProducts),  
     path('subCategory/<str:category>/', views.subCategory),    
-    path('cart/', views.cart),
+    path('cart/<str:cust_id>/', views.cart),
     path('addtoCart/', views.addtoCart),
     path('updateCartQty/<str:id>/<str:scope>/', views.updateCartQty),
     path('deleteCartItem/<str:id>/', views.deleteCartItem),   
     path('orderSummary/', views.cart),
     path('checkout/', views.checkout),
+    path('saveOrderDetail/', views.saveOrderDetail),
+    path('emptyOrderedCart/<str:id>/', views.emptyOrderedCart),  
+    path('getMyOrders/<str:cust_id>/', views.getMyOrders),   
+
+
+
 
      
 

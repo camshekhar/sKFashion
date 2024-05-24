@@ -80,13 +80,13 @@ const InfoContainer = styled.div`
   margin: 0px 10px;
   align-items: center;
   justify-content: center;
-  margin-bottom: 90px;
+  /* margin-bottom: 90px; */
 
   
 `;
 
 const Title = styled.h1`
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
 `;
 

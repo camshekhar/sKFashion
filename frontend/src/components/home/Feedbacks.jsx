@@ -80,7 +80,7 @@ const Feedbacks = () => {
     getFeedbacks();
   }, [prod_id]);
 
-  console.log(feeds);
+  // console.log(feeds);
   var show_feeds;
   if (feeds.length > 0) {
     show_feeds = (

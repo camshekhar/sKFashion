@@ -36,11 +36,11 @@ const Left = styled.div`
   padding-bottom: 5px;
   ${mobile({ flex: "2" })}
 `;
-const Language = styled.div`
-  font-size: 14px;
-  cursor: pointer;
-  ${mobile({ display: "none" })}
-`;
+// const Language = styled.div`
+//   font-size: 14px;
+//   cursor: pointer;
+//   ${mobile({ display: "none" })}
+// `;
 
 const SearchContainer = styled.form`
   border: 1px solid gray;
@@ -185,6 +185,8 @@ const SearchBtn = styled.button`
 const Navbar = () => {
   const { access_token } = getToken();
   const {data, isSuccess} = useGetLoggedUserQuery(access_token);
+  // const cust_id = localStorage.getItem("cust_id");
+
   const [userData, setUserData] = useState({
     id: null,
     email: "",
@@ -207,27 +209,27 @@ const Navbar = () => {
     }
   }, [data, isSuccess]);
  
-  localStorage.setItem("cust_id", userData.id);
+  const cust_id = userData.id;
+  localStorage.setItem("cust_id", cust_id);
 
   const [cartitems, setCartitems] = useState({});
   const navigate = useNavigate();
-  
+  // console.log(userData.id)
   useEffect(() => {
     async function getAllCategory() {
       try {
-        const cartitems = await axios.get("/api/cart/");
-        // const cartitems = await localStorage.getItem('product_data');
-    
+        if(cust_id !== null){
+          const cartitems = await axios.get(`/api/cart/${cust_id}`);
+          setCartitems(cartitems.data);
+        }
 
-        setCartitems(cartitems.data);
-        // console.log(cartitems.data);
       } catch (error) {
         console.log(error);
       }
     }
     getAllCategory();
     // console.log(cartitems)
-  }, []);
+  }, [cust_id]);
  
   // console.log(cartitems.length)
   var cartCount = 0;
@@ -242,6 +244,7 @@ const Navbar = () => {
       dispatch(unSetUserToken({ access_token: null }))
       removeToken();
       localStorage.clear();
+      sessionStorage.clear();
       navigate('/');
       swal("Logout Success", "You Logged Out Successfully", "success");
   }
@@ -279,7 +282,7 @@ const Navbar = () => {
                    Hello, {userData.fname.charAt(0).toUpperCase() + userData.fname.slice(1)} {/* <Icon.CaretDownFill/>  */}
                   </ProfileButton>
                   <ProfileInfo>
-                    <ProfileLinks>My Orders</ProfileLinks>
+                  <Link to="/myOrders" style={{textDecoration: "none"}}><ProfileLinks>My Orders</ProfileLinks></Link>
                     <Link to="/changePassword" style={{textDecoration: "none"}}><ProfileLinks>Change Password</ProfileLinks></Link>
                     <ProfileLinks>
                       <LogoutButton onClick={handleLogout}>Logout</LogoutButton>

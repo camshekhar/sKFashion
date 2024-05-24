@@ -55,21 +55,41 @@ def userProfile(request):
     userSerializer = UserProfileSerializer(request.user)
     # print(userSerializer.data)
     return Response(userSerializer.data, status=status.HTTP_200_OK)
-   
+
+
+@api_view(['POST'])
+def addUserAddress(request):
+    address = AddressSerializer(data = request.data)
+    # print(address)
+    if address.is_valid():
+        address.save()
+        # message = "Item Added to Cart"
+        return Response(address.data, status=status.HTTP_201_CREATED)
+    # message = "Item Already in Cart"
+    return Response(address.errors, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['GET'])
 def getUserAddress(request, cust_id):
     
     addresses = Address.objects.filter(cust_id = cust_id)
     serializer = AddressSerializer(addresses, many= True)
-    print(serializer.data)
+    # print(serializer.data)
     return Response(serializer.data) 
       
 @api_view(['GET'])
 def productDetails(request, subCategory):
     filter_conditions = Q(subCategory=subCategory) or Q(title=subCategory)
     product = Product.objects.get(filter_conditions)
-    serializer = ProductSerializer(product, many= False)
-    # print(serializer.data)
+
+    # subCat = Product.objects.filter(subCategory=subCategory)
+    # product = Product.objects.get(title=subCategory)
+    # if subCat:
+    #     serializer = ProductSerializer(subCat, many=True)
+    # if product:
+
+    serializer = ProductSerializer(product, many=False)
+
+    print(serializer.data)
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -94,8 +114,8 @@ def popularProducts(request):
 
 @api_view(['GET'])
 # @permission_classes((IsAuthenticated, ))
-def cart(request):
-    cartDetail = Cart.objects.all()
+def cart(request, cust_id):
+    cartDetail = Cart.objects.filter(cust_id = cust_id)
     serializer = CartSerializer(cartDetail, many= True)
     return Response(serializer.data)
 
@@ -123,10 +143,43 @@ def updateCartQty(request, id, scope):
 @api_view(['DELETE'])
 def deleteCartItem(request, id):
     cartItem = Cart.objects.get(id = id)
-    cartItem.delete();
+    cartItem.delete()
     return Response(status=status.HTTP_200_OK)    
-        
-        
+
+
+@api_view(['POST'])
+def saveOrderDetail(request):
+    order = OrderSummarySerializer(data = request.data)
+    print(order)
+    if order.is_valid():
+        order.save()
+        # message = "Item Added to Cart"
+        return Response(order.data, status=status.HTTP_201_CREATED)
+    # message = "Item Already in Cart"
+    return Response(order.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def emptyOrderedCart(request, id):
+    cartItem = Cart.objects.filter(cust_id = id)
+    cartItem.delete()
+    return Response(status=status.HTTP_200_OK)    
+
+@api_view(['GET'])
+def getMyOrders(request, cust_id):
+    orders = OrderSummary.objects.filter(cust = cust_id)
+    serializer = OrderSummarySerializer(orders, many=True)
+    # print(serializer.data)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def feedback(request, prod_id):
+    
+    feedbacks = Feedback.objects.filter(prod_id = prod_id)
+    # print(feedbacks)
+    serializer = FeedbackSerializer(feedbacks, many= True)
+    # print(serializer.data)
+    return Response(serializer.data)
+
 def orderSummary(request):
     order = OrderSummary.objects.all()
     cart = Cart.objects.all()
@@ -161,7 +214,7 @@ def feedback(request, prod_id):
 def searchResults(request, slug):
     # print(slug)
     slug = slug.lower()
-    products = Product.objects.all()
+    products = SubCategory.objects.all()
     search_results = []
     # or slug == product.category.lower() or slug == product.subCategory.lower():
     for product in products:
@@ -172,6 +225,6 @@ def searchResults(request, slug):
 
     # print(slug)
     # print(search_results)
-    serializer = ProductSerializer(search_results, many= True)
+    serializer = SubCategorySerializer(search_results, many= True)
     # print(serializer.data)
     return Response(serializer.data)
