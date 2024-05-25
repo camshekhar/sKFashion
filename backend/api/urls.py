@@ -32,8 +32,7 @@ urlpatterns = [
     path('getInvoiceDetails/<str:order_id>/', views.getInvoiceDetails),   
     path('getOrderAddress/<str:add_id>/', views.getOrderAddress),
     # path('getCustomerDetail/<str:cust_id>/', views.getCustomerDetail),
-
-
+    path('getTotalSales/', views.getTotalSales),
 
 
 

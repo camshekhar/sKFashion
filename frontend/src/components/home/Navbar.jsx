@@ -56,10 +56,15 @@ const SearchContainer = styled.form`
 
 const Input = styled.input`
   border: none;
-  width: 150%;
   margin-right: 4px;
+  color: brown;
   background-color: white;
   ${mobile({ width: "100%", fontSize: "12px" })}
+
+  &:focus(){
+    outline: none;
+    border: 1ps solid orange;
+  }
 `;
 
 const Center = styled.div`
@@ -178,8 +183,11 @@ const CartBadge = styled.span`
 
 `;
 
-const SearchBtn = styled.button`
-  
+const SearchBtn = styled.div`
+color: #3c1a00;
+  &:hover{
+    color: orange;
+  }
 `;
 
 const Navbar = () => {
@@ -229,7 +237,7 @@ const Navbar = () => {
     }
     getAllCategory();
     // console.log(cartitems)
-  }, [cust_id]);
+  }, [cust_id, cartitems]);
  
   // console.log(cartitems.length)
   var cartCount = 0;
@@ -267,9 +275,9 @@ const Navbar = () => {
           <Left>
             {/* <Language>EN</Language> */}
             <SearchContainer>
-              <Input placeholder="Search.." id="search"/>
+              <Input placeholder="Search Products..." id="search"/>
               <SearchBtn type="submit" onClick={handleChange}>
-              <Icon.Search style={{ color: "gray", fontSize: 16 }} />
+              <Icon.Search/>
               </SearchBtn>
             </SearchContainer>
           </Left>

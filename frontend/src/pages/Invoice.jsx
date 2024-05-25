@@ -216,10 +216,10 @@ const Invoice = () => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF();
       const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth() - 50;
+      const pdfWidth = pdf.internal.pageSize.getWidth()-50;
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
       pdf.addImage(imgData, "PNG", 15, 5, pdfWidth, pdfHeight);
-      pdf.save(`OD${order_id}_download.pdf`);
+      pdf.save(`INVOID${invoice.id}C${invoice.cust}TR${invoice.transaction_id}_invoice.pdf`);
     });
   };
 
@@ -228,7 +228,8 @@ const Invoice = () => {
       <Announcement />
       <Navbar />
       <hr />
-      <div className="container-fluid">
+      <div className="container">
+   
         <div id="od">
           <header
             style={{ display: "flex", gap: "1rem", justifyContent: "center" }}
@@ -247,14 +248,18 @@ const Invoice = () => {
 
           <section className="d-flex justify-content-between mt-4">
             <h4 className="h3">Order ID: {invoice.id}</h4>
+            
             <span className="float-end">Order Date: {formattedDate}</span>
           </section>
 
           <section className="card my-3 mx-4 p-4">
-          <span className="text-end">Transaction ID: <strong>{invoice.transaction_id}</strong></span>
+            <section className="d-flex justify-content-between">
+          <p className="text-end">Invoice ID: <strong>INVOID{invoice.id}C{invoice.cust}TR{invoice.transaction_id}</strong></p>
 
+          <p className="text-end">Transaction ID: <strong>{invoice.transaction_id}</strong></p>
+          </section>
             <span>Customer Name: <strong>{userData.fname} {userData.lname} </strong></span>
-            <span>Customer Name: <strong>{userData.email}</strong></span>
+            <span>Customer Email: <strong>{userData.email}</strong></span>
 
             <span>Customer Mobile: <strong>{address.mobile}</strong></span>
             <span>Customer Address: <strong>{address.street}, {address.city}, {address.state} - {address.pincode} </strong> </span>
@@ -265,6 +270,7 @@ const Invoice = () => {
             <thead>
               <tr>
                 <th scope="col">Prod ID</th>
+                {/* <th scope="col">Product</th> */}
                 <th scope="col">Prod Name</th>
                 <th scope="col">Color</th>
                 <th scope="col">Size</th>
@@ -277,6 +283,7 @@ const Invoice = () => {
               {products.map((item, i) => (
                 <tr key={i}>
                   <th scope="row">{item.id}</th>
+                  {/* <td><img src={item.image} alt={item.title} width={100}/></td> */}
                   <td>{item.title}</td>
                   <td>{item.color}</td>
                   <td>{item.size}</td>
@@ -316,7 +323,7 @@ const Invoice = () => {
           </table>
         </div>
         <button
-          className="btn btn-success text-center mb-4"
+          className="btn btn-success float-end mb-4"
           onClick={generateInvoice}
         >
           Download Invoice <Icon.ArrowDownCircle />

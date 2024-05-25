@@ -18,13 +18,16 @@ ${mobile({ fontSize: "12px"})}
 const AnnouncementMessage = styled.div`
   
 `;
-
+const AdminDashboard = styled.div`
+  
+`;
 const Announcement = () => {
   return (
     <Container>
       <Icon.MegaphoneFill/>
       <Icon.Soundwave style={{marginRight: "5px"}}/>
       <AnnouncementMessage>Super Deal! Free Shipping on Orders Above Rs.500. <Link to={'/register'} style={{color: "yellow"}}>Sign up Now</Link></AnnouncementMessage>
+     
     </Container>
   )
 }

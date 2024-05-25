@@ -149,7 +149,7 @@ const Payment = () => {
     if(count%2 !==0 ){
       localStorage.removeItem("paymentMode");
     }else{
-      localStorage.setItem("paymentMode", "QR Mode");
+      localStorage.setItem("paymentMode", "UPI QR Code");
     } 
   }
 
@@ -159,7 +159,7 @@ const Payment = () => {
     if(count%2 !==0 ){
       localStorage.removeItem("paymentMode");
     }else{
-      localStorage.setItem("paymentMode", "COD");
+      localStorage.setItem("paymentMode", "Cash On Delivery(COD)");
     } 
   }
 

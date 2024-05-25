@@ -181,15 +181,22 @@ def emptyOrderedCart(request, id):
 def getMyOrders(request, cust_id):
     orders = OrderSummary.objects.filter(cust = cust_id)
     serializer = OrderSummarySerializer(orders, many=True)
-    print(serializer.data)
+    # print(serializer.data)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def getInvoiceDetails(request, order_id):
     invoice = OrderSummary.objects.get(id = order_id)
     invoice_serializer = OrderSummarySerializer(invoice, many=False)
-    print(invoice_serializer.data)
+    # print(invoice_serializer.data)
     return Response(invoice_serializer.data)
+
+@api_view(['GET'])
+def getTotalSales(request):
+    sales = OrderSummary.objects.all()
+    sales_serializer = OrderSummarySerializer(sales, many=True)
+    print(sales_serializer.data)
+    return Response(sales_serializer.data)
 
 @api_view(['GET'])
 def feedback(request, prod_id):
@@ -227,7 +234,7 @@ def feedback(request, prod_id):
     feedbacks = Feedback.objects.filter(prod_id = prod_id)
     # print(feedbacks)
     serializer = FeedbackSerializer(feedbacks, many= True)
-    print(serializer.data)
+    # print(serializer.data)
     return Response(serializer.data)
 
 @api_view(['GET'])

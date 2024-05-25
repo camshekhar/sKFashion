@@ -145,13 +145,13 @@ const Login = () => {
       <Container>
         <Wrapper>
           <Title>LOGIN</Title>
+          {server_error.non_field_errors ? <ErrAlert>***{server_error.non_field_errors[0]}</ErrAlert> : " "}
           <Hr />
           <Form onSubmit={handleSubmit}>
-            {server_error.non_field_errors ? <ErrAlert>***{server_error.non_field_errors[0]}</ErrAlert> : " "}
-            <Input type={"email"} placeholder="Email" name="email" required />
+            <Input  type={"email"} placeholder="Email" name="email" required />
             <Input type={"password"} placeholder="Password" name="password" required />
-            <ForgotPassword><Link to="/forgotPassword" style={{color: "#03033f"}}>Forgot Password?</Link></ForgotPassword>.
-            <Button type="submit">LOGIN</Button>
+            {/* <ForgotPassword><Link to="/forgotPassword" style={{color: "#03033f"}}>Forgot Password?</Link></ForgotPassword>. */}
+            <Button className="mt-2" type="submit">LOGIN</Button>
             <Register>
               New User? <Link to="/register" style={{color: "#03033f", fontWeight: "bold"}}>Register Here</Link>.
             </Register>

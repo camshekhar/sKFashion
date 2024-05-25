@@ -159,11 +159,13 @@ const Register = () => {
       <Container>
         <Wrapper>
           <Title>CREATE AN ACCOUNT</Title>
+          {server_error.username ? <ErrAlert>***{server_error.username[0]}</ErrAlert> : " "}
+            {server_error.email ? <ErrAlert>***{server_error.email[0]}</ErrAlert> : " "}
           <Hr />
           <Form id="registration-form" onSubmit={handleSubmit}>
             {/* {server_error.fname ? <ErrAlert>{server_error.fname[0]}</ErrAlert> : " "} */}
-            <Input placeholder="First Name" name="fname" id="fname" required />
-            <Input placeholder="Last Name" name="lname" id="lname" required/>
+            <Input placeholder="First Name" name="fname" id="fname" required pattern="^[A-Za-z]+$" title="Only Alphabets are Allowed."/>
+            <Input placeholder="Last Name" name="lname" id="lname" required pattern="^[A-Za-z]+$" title="Only Alphabets are Allowed."/>
             <Input placeholder="Username" name="username" id="username" required/>
             <Input type={"email"} placeholder="Email" name="email" id="email" required/>
             <Input type={"password"} placeholder="Password" name="password" id="password" required/>
@@ -176,8 +178,7 @@ const Register = () => {
             <Login>
               Already Registered? <Link to="/login" style={{color: "#03033f", fontWeight: "bold"}}>Login Here</Link>.
             </Login>
-            {server_error.username ? <ErrAlert>***{server_error.username[0]}</ErrAlert> : " "}
-            {server_error.email ? <ErrAlert>***{server_error.email[0]}</ErrAlert> : " "}
+            
           </Form>
         </Wrapper>
       </Container>

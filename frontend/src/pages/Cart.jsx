@@ -246,10 +246,10 @@ const Cart = () => {
   useEffect(() => {
     async function getCartItems() {
       try {
-        const cartitems = await axios.get(`/api/cart/${cust_id}`);
+        const cartitem = await axios.get(`/api/cart/${cust_id}`);
         // const cartitems = await localStorage.getItem('product_data');
 
-        setCartitems(cartitems.data);
+        setCartitems(cartitem.data);
         // console.log(cartitems);
       } catch (error) {
         console.log(error);

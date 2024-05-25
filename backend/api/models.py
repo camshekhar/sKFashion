@@ -15,7 +15,9 @@ transit = (
     ("Ordered", "Ordered" ),
     ("Shipped", "Shipped" ),
      ("In Transit", "In Transit" ),
-     ("Delivered", "Delivered" )
+     ("Delivered", "Delivered" ),
+     ("Cancelled", "Cancelled" )
+
     )
 # Custom User Manager..
 class UserManager(BaseUserManager):

@@ -107,7 +107,7 @@ const Form = styled.form`
 // `;
 const Input = styled.input`
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   height: 40px;
   min-width: 40%;
   font-size: 0.8rem;
@@ -342,21 +342,21 @@ const Checkout = () => {
                 Add New Address <Icon.PlusSquareFill/>
               </button>
          
-            <div className="collapse  multi-collapse" id="collapseExample">
-              <div className="card card-body">
-              <Form  onSubmit={handleSubmit}>
+            <div className="collapse multi-collapse" id="collapseExample">
+              <div className="card card-body w-50 ">
+              <Form className="form-control p-4"  onSubmit={handleSubmit}>
             <Title>
               <u>New Address</u>
             </Title>
             {/* <FormData> */}
-              <Input type={"phone"} name="mobile" placeholder="Phone Number" />
-              <Input type={"email"} name="email" placeholder="Email Address" />
-              <Input placeholder="Street" name="street" />
-              <Input placeholder="Landmarks" name="landmark" />
-              <Input placeholder="City"  name="city"/>
-              <Input placeholder="State"  name="state"/>
-              <Input placeholder="Pincode" name="pincode" />
-              <AddButton type="submit">Add Address</AddButton>
+              <Input className="form-control" type={"phone"} name="mobile" placeholder="Phone Number" maxLength={10}/>
+              <Input className="form-control" type={"email"} name="email" placeholder="Email Address" />
+              <Input className="form-control" placeholder="Street" name="street" />
+              <Input className="form-control" placeholder="Landmarks" name="landmark" />
+              <Input className="form-control" placeholder="City"  name="city"/>
+              <Input className="form-control" placeholder="State"  name="state"/>
+              <Input className="form-control" placeholder="Pincode" name="pincode" maxLength={6}/>
+              <AddButton className="form-control" type="submit">Add Address</AddButton>
             {/* </FormData> */}
           </Form>
             

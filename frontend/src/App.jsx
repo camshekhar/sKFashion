@@ -18,6 +18,12 @@ import Payment from './pages/Payment';
 import MyOrders from './pages/MyOrders';
 import "./App.css"
 import Invoice from './pages/Invoice';
+import ScrollToTop from './components/ScrollToTop';
+import Admin from './pages/Admin';
+import TotalSales from './components/admin/TotalSales';
+import Customers from './components/admin/Customers';
+
+
 
 const App = () => {
   const { access_token } = useSelector(state => state.auth);
@@ -25,6 +31,7 @@ const App = () => {
     <>
     <div className='root'>
     <Router>
+      <ScrollToTop/>
         <Routes>
           <Route exact path="/" element={<Home/>}/>
           <Route path="/login" element={!access_token ? <Login/> : <Home/>}/>
@@ -38,10 +45,12 @@ const App = () => {
           <Route path="/payment" element={!access_token ? <Login/> :<Payment/>} />
           <Route path="/myOrders" element={!access_token ? <Login/> :<MyOrders/>} />
           <Route path="/orderInvoice" element={!access_token ? <Login/> :<Invoice/>} />
-
-
+          <Route path="/admin" element={<Admin />}/>
+          <Route path="/admin/totalSales" element={<TotalSales />}/>
+          <Route path="/admin/customers" element={<Customers/>}/>
 
         </Routes>  
+
       </Router>
     </div>
     </>

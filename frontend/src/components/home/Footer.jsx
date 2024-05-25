@@ -140,9 +140,9 @@ const Footer = () => {
                   <ListItem><Link to={`/${womenFashion}`} style={{textDecoration: "none", color: "#fff"}}>Women's Fashion</Link></ListItem>
                   <ListItem><Link to={`/${accessories}`} style={{textDecoration: "none", color: "#fff"}}>Accessories</Link></ListItem>
                   <ListItem><Link to="/login" style={{textDecoration: "none", color: "#fff"}}>My Account</Link></ListItem>
-                  <ListItem>Order Tracking</ListItem>
+                  <ListItem><Link to="/myOrders" style={{textDecoration: "none", color: "#fff"}}>Order Tracking</Link></ListItem>
                   <ListItem>Wishlist</ListItem>
-                  <ListItem>FAQs</ListItem>
+                  <ListItem><Link to={'/admin'} style={{textDecoration: "none", color: "#fff"}}>Admin</Link></ListItem>
                   <ListItem>Terms</ListItem>
 
 
