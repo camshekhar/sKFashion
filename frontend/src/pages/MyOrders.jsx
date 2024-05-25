@@ -10,8 +10,6 @@ import { mobile } from "../responsive";
 import * as Icon from "react-bootstrap-icons";
 import swal from "sweetalert";
 
-import QR from "../images/my-qr-code.jpg";
-
 const Container = styled.div`
   display: flex;
   height: 50vh;
@@ -115,6 +113,7 @@ const MyOrders = () => {
   const [orders, setOrders] = useState([]);
   const cust_id = localStorage.getItem("cust_id");
   var paymentStatus;
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getMyOrders() {
@@ -137,8 +136,10 @@ const MyOrders = () => {
 
   const showInvoice = (e, order_id) =>{
     e.preventDefault();
-    // console.log(order_id);
+    localStorage.setItem("order_id", order_id);
+    navigate('/orderInvoice')
   }
+  
   return (
     <>
       <Announcement />
@@ -147,7 +148,7 @@ const MyOrders = () => {
       <div className="container-fluid">
         <h3 className="text-center text-decoration-none">My Orders</h3>
         {orders.map((order, i) => (
-          <div className="card my-3 mx-4" style={{ maxWidth: "100%" }}>
+          <div className="card my-3 mx-4" id="od" style={{ maxWidth: "100%" }}>
             <h6 className="mx-4 mt-2">Order ID: {order.id}</h6>
             {order.prod.map((prod, i) => (
               <div className="row g-0">
@@ -164,17 +165,17 @@ const MyOrders = () => {
                    <h5 className="card-title">Item Name: {prod.title}</h5>
                     <p className="card-text">{prod.desc}</p>
                     <p className="card-text">
-                      <small class="text-body-secondary">
+                      <small className="text-body-secondary">
                         Item Price: &#8377;{prod.price}
                       </small>
                     </p>
                     <p className="card-text">
-                      <small class="text-body-secondary">
+                      <small className="text-body-secondary">
                         Item Quantity: {prod.quantity}
                       </small>
                     </p>
                     {/* <p className="card-text">
-                      <small class="text-body-secondary">
+                      <small className="text-body-secondary">
                         Mobile: {order.mobile}
                       </small>
                     </p> */}
@@ -184,7 +185,7 @@ const MyOrders = () => {
                   <div className="card-body">
 
                   <p>
-              <small class="text-body-secondary">
+              <small className="text-body-secondary">
                 Total Order Amount: <strong>&#8377;{order.total}</strong> 
               </small>
             </p>
@@ -201,7 +202,7 @@ const MyOrders = () => {
                 </div>
               </div>
             ))}
-                    <h6 className="text-center">Current Tracking Status: <strong className="btn btn-warning"><Icon.Truck /> {order.transit_status}</strong></h6>
+            <h6 className="text-center">Current Tracking Status: <strong className="btn btn-warning"><Icon.Truck /> {order.transit_status}</strong></h6>
 
              
           </div>

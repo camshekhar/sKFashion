@@ -29,6 +29,10 @@ urlpatterns = [
     path('saveOrderDetail/', views.saveOrderDetail),
     path('emptyOrderedCart/<str:id>/', views.emptyOrderedCart),  
     path('getMyOrders/<str:cust_id>/', views.getMyOrders),   
+    path('getInvoiceDetails/<str:order_id>/', views.getInvoiceDetails),   
+    path('getOrderAddress/<str:add_id>/', views.getOrderAddress),
+    # path('getCustomerDetail/<str:cust_id>/', views.getCustomerDetail),
+
 
 
 

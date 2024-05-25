@@ -17,6 +17,7 @@ import SearchResults from './pages/SearchResults';
 import Payment from './pages/Payment';
 import MyOrders from './pages/MyOrders';
 import "./App.css"
+import Invoice from './pages/Invoice';
 
 const App = () => {
   const { access_token } = useSelector(state => state.auth);
@@ -27,7 +28,7 @@ const App = () => {
         <Routes>
           <Route exact path="/" element={<Home/>}/>
           <Route path="/login" element={!access_token ? <Login/> : <Home/>}/>
-          <Route path="/register" element={<Register/>} />
+          <Route path="/register" element={!access_token ? <Register/> : <Home/>}/>
           <Route path="/search/" element={<ProductList/>} />
           <Route path="/changePassword" element={!access_token ? <h1>404 - Page not Found..!!</h1> : <ChangePassword/>}/>
           <Route exact path="/:subcategory_slug/" element={<ProductList/>} />
@@ -36,6 +37,8 @@ const App = () => {
           <Route path="/checkout" element={!access_token ? <Login/> :<Checkout/>} />
           <Route path="/payment" element={!access_token ? <Login/> :<Payment/>} />
           <Route path="/myOrders" element={!access_token ? <Login/> :<MyOrders/>} />
+          <Route path="/orderInvoice" element={!access_token ? <Login/> :<Invoice/>} />
+
 
 
         </Routes>  

@@ -175,7 +175,7 @@ const Payment = () => {
         subtotal = subtotal+parseInt(item.price, 10);
         total += (item.price*item.quantity);
     });
-
+  
     const actualData = {
     //   id: Math.floor((Math.random() * 100) + 1),
       cust: localStorage.getItem("cust_id"),
@@ -184,7 +184,7 @@ const Payment = () => {
       subTotal: subtotal,
       discount: 0,
       total: total,
-      paymentMode: localStorage.getItem("paymentMode"),
+      paymentMode: localStorage.getItem("paymentMode") ? localStorage.getItem("paymentMode") : Math.floor((Math.random() * 40000) + 1),
       transaction_id: localStorage.getItem("transaction_id"),
     };
    
@@ -199,7 +199,7 @@ const Payment = () => {
         localStorage.removeItem("transaction_id")
         localStorage.removeItem("totalCartPrice")
 
-        navigate("/myOrders");
+        navigate("/myOrders", "_blank");
       }else{
         swal("Order Not Placed!", "Something Went Wrong. Try Again", "warning");
 

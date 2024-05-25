@@ -53,7 +53,7 @@ def userChangePassword(request):
 @permission_classes((IsAuthenticated, )) 
 def userProfile(request):  
     userSerializer = UserProfileSerializer(request.user)
-    # print(userSerializer.data)
+    print(userSerializer.data)
     return Response(userSerializer.data, status=status.HTTP_200_OK)
 
 
@@ -68,14 +68,27 @@ def addUserAddress(request):
     # message = "Item Already in Cart"
     return Response(address.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# @api_view(['GET'])
+# def getCustomerDetail(request, cust_id):
+#     addresses = User.objects.get(id = cust_id)
+#     serializer = UserProfileSerializer(addresses, many= False)
+#     # print(serializer.data)
+#     return Response(serializer.data)
+
 @api_view(['GET'])
 def getUserAddress(request, cust_id):
-    
     addresses = Address.objects.filter(cust_id = cust_id)
     serializer = AddressSerializer(addresses, many= True)
     # print(serializer.data)
     return Response(serializer.data) 
-      
+
+@api_view(['GET'])
+def getOrderAddress(request, add_id):
+    addresses = Address.objects.get(id = add_id)
+    serializer = AddressSerializer(addresses, many= False)
+    # print(serializer.data)
+    return Response(serializer.data)
+   
 @api_view(['GET'])
 def productDetails(request, subCategory):
     filter_conditions = Q(subCategory=subCategory) or Q(title=subCategory)
@@ -168,8 +181,15 @@ def emptyOrderedCart(request, id):
 def getMyOrders(request, cust_id):
     orders = OrderSummary.objects.filter(cust = cust_id)
     serializer = OrderSummarySerializer(orders, many=True)
-    # print(serializer.data)
+    print(serializer.data)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def getInvoiceDetails(request, order_id):
+    invoice = OrderSummary.objects.get(id = order_id)
+    invoice_serializer = OrderSummarySerializer(invoice, many=False)
+    print(invoice_serializer.data)
+    return Response(invoice_serializer.data)
 
 @api_view(['GET'])
 def feedback(request, prod_id):
