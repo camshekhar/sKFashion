@@ -4,6 +4,7 @@ const storeToken = (value) => {
         const {access, refresh} = value
         localStorage.setItem('access_token', access)
         localStorage.setItem('refresh_token', refresh)  
+
     }
 }
 

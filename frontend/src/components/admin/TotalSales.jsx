@@ -19,9 +19,9 @@ const Container = styled.div`
     flex-direction: column;
     background-color: #e2ecf6;
     flex: 3;
-    width: 100%;
-    height: 85vh;
-    padding: 2rem;
+    width: 80%;
+    /* height: 85vh; */
+    padding: 5rem;
 `;
 const ReportBox = styled.div`
     width: 150px;
@@ -52,15 +52,75 @@ const TotalSales = () => {
     getMyOrders();
   }, []);
   
+  
+ 
+
   var total_revenue = 0;
   const total_sales = sales.length;
   var total_prod_sold = 0;
 
+  var weeklyGraph = {};
+  var weeklyData = [];
+
   sales.forEach(order => {
     total_revenue += parseInt(order.total);
     total_prod_sold += parseInt(order.prod.length)
+    const date = new Date(order.date);
+    const dt = { year: "numeric", month: "long", day: "numeric" };
+    const formattedDate = date.toLocaleDateString("en-US", dt);
+  
+    if (formattedDate in weeklyGraph) {
+      weeklyGraph[formattedDate] += 1;
+    } else {
+      weeklyGraph[formattedDate] = 1;
+    }
   });
-  const options = {
+
+  var week = 7;
+  var x_label = [];
+  var cnt = 0;
+  for (const key in weeklyGraph) {
+    if (week == 7) {
+      week = 6;
+      continue;
+    }
+    if (weeklyGraph.hasOwnProperty(key) && week >= 0) {
+      weeklyData.push({ x: weeklyGraph[key[cnt-1]], y: weeklyGraph[key] });
+      x_label.push(key);
+    }
+    cnt += 1;
+    week -= 1;
+  } 
+// console.log(weeklyData)
+  let monthlyGraph = {
+    "January" : 0,
+    "February" : 0,
+    "March" : 0,
+    "April" : 0,
+    "May" : 0
+  };
+  var monthlyData = [];
+
+sales.forEach(order => {
+  const date = new Date(order.date);
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  const formattedDate = date.toLocaleDateString("en-US", options);
+  const month = date.toLocaleString('en-US', { month: 'long' });
+
+  if (month in monthlyGraph) {
+    monthlyGraph[month] += 1;
+  } else {
+    monthlyGraph[month] = 1;
+  }
+});
+
+for (const key in monthlyGraph) {
+  if (monthlyGraph.hasOwnProperty(key)) {
+    monthlyData.push({ label: key, y: monthlyGraph[key] });
+  }
+}
+// console.log()
+  const daily = {
     animationEnabled: true,
     exportEnabled: true,
     theme: "light2", //"light1", "dark1", "dark2"
@@ -71,17 +131,40 @@ const TotalSales = () => {
     title: {
       text: "Weekly Sales Report"
     },
+    axisY: {
+      title: "Increase is Sales",
+      suffix: "%"
+    },
+    axisX: {
+      title: "Weekly Date",
+      labelFormatter: function(e) {
+        return x_label[e.value];
+      },
+      interval: 1
+      
+    },
+    data: [{         
+      type: "line",
+			toolTipContent: "Weekly {x}: {y}%",
+      dataPoints: weeklyData
+    }]
+  }
+
+
+  const monthly = {
+    animationEnabled: true,
+    exportEnabled: true,
+    theme: "light2", //"light1", "dark1", "dark2"
+    axisY: {
+        includeZero: true
+    },
+
+    title: {
+      text: "Monthly Sales Report"
+    },
     data: [{        
       type: "column",  
-      dataPoints: [
-        { label: "Monday",  y: 10  },
-        { label: "Tuesday", y: 15  },
-        { label: "Wednesday", y: 25  },
-        { label: "Thursday",  y: 30  },
-        { label: "Friday",  y: 28  },
-        { label: "Saturday",  y: 28  },
-        { label: "Sunday",  y: 28  },
-      ]
+      dataPoints: monthlyData
     }]
   }
 
@@ -109,8 +192,13 @@ const TotalSales = () => {
                <span>{total_prod_sold}</span>
             </ReportBox>
            </div>
-            <CanvasJSChart options={options} />
-    
+           <section>
+            <CanvasJSChart options={daily} />
+          </section>
+
+          <section className="mt-4">
+            <CanvasJSChart options={monthly} />
+          </section>
         </Container>
         
       </div>

@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@canvasjs/react-charts": "^1.0.2",
-    "@coreui/react": "^5.0.0",
     "@reduxjs/toolkit": "^1.8.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
