@@ -133,12 +133,15 @@ class Product(models.Model):
 class Cart(models.Model):
     id = models.CharField(max_length=20, primary_key = True)
     cust = models.ForeignKey(User, models.CASCADE, default='null')
+    # cust = models.CharField(max_length= 100)
+
     title = models.CharField(max_length= 100)
     color = models.CharField(max_length= 100)
     size = models.CharField(max_length= 20)
-    image  = models.CharField(max_length= 300)
-    quantity = models.CharField(max_length= 20)
+    image  = models.CharField(max_length= 400)
+    quantity = models.IntegerField()
     price = models.CharField(max_length= 100, default="0")
+    # stockCount = models.CharField(max_length=20, default="0")
    
 
 

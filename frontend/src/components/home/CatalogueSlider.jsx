@@ -162,10 +162,11 @@ const CatalogueSlider = () => {
           </Slide>
         ))}
       </Wrapper>
-
+      
       <Arrow direction="right" onClick={() => handleClick("right")}>
         <Icon.ArrowRightShort />
       </Arrow>
+  
     </Container>
   );
 };

@@ -53,7 +53,7 @@ def userChangePassword(request):
 @permission_classes((IsAuthenticated, )) 
 def userProfile(request):  
     userSerializer = UserProfileSerializer(request.user)
-    print(userSerializer.data)
+    # print(userSerializer.data)
     return Response(userSerializer.data, status=status.HTTP_200_OK)
 
 
@@ -76,6 +76,21 @@ def addUserAddress(request):
 #     return Response(serializer.data)
 
 @api_view(['GET'])
+def getCustomers(request):
+    customers = User.objects.exclude(username = "admin")
+    # print(len(customers))
+    userSerializer = UserProfileSerializer(customers, many=True)
+    # print(userSerializer.data)
+    return Response(userSerializer.data)
+
+@api_view(['GET'])
+def getUserAddressReport(request):
+    addresses = Address.objects.all()
+    serializer = AddressSerializer(addresses, many= True)
+    # print(serializer.data)
+    return Response(serializer.data)
+
+@api_view(['GET'])
 def getUserAddress(request, cust_id):
     addresses = Address.objects.filter(cust_id = cust_id)
     serializer = AddressSerializer(addresses, many= True)
@@ -91,7 +106,7 @@ def getOrderAddress(request, add_id):
    
 @api_view(['GET'])
 def productDetails(request, subCategory):
-    filter_conditions = Q(subCategory=subCategory) or Q(title=subCategory)
+    filter_conditions = Q(subCategory=subCategory) | Q(title=subCategory)
     product = Product.objects.get(filter_conditions)
 
     # subCat = Product.objects.filter(subCategory=subCategory)
@@ -102,7 +117,7 @@ def productDetails(request, subCategory):
 
     serializer = ProductSerializer(product, many=False)
 
-    print(serializer.data)
+    # print(serializer.data)
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -113,7 +128,8 @@ def categories(request):
 
 @api_view(['GET'])
 def subCategory(request, category ):
-    filter_conditions = Q(category=category) or Q(title=category)
+    filter_conditions = Q(category=category) | Q(title=category)
+    # filter_conditions = Q({"category": category, "title": category})
     categories = SubCategory.objects.filter(filter_conditions)
     serializer = SubCategorySerializer(categories, many=True)
     # print(serializer.data)
@@ -255,3 +271,11 @@ def searchResults(request, slug):
     serializer = SubCategorySerializer(search_results, many= True)
     # print(serializer.data)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def getStockCount(request, prod_id):
+    stockCount = Product.objects.get(id=prod_id).stockCount
+    print(stockCount)
+    return Response(stockCount)
+    

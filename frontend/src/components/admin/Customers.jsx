@@ -20,17 +20,19 @@ const Container = styled.div`
     background-color: #e2ecf6;
     flex: 3;
     width: 100%;
-    height: 85vh;
+    /* height: 85vh; */
     padding: 2rem;
 `;
 const ReportBox = styled.div`
-    width: 150px;
-    background-color: teal;
+    /* width: 150px; */
+    /* background-color: teal; */
     color: white;
     padding: 15px;
-    border-radius: 10px;
+    border-radius: 50%;
+    height: 200px;
+
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: center;
     justify-content: center;
     font-weight: 500;
@@ -38,11 +40,13 @@ const ReportBox = styled.div`
 `;
 const Customers = () => {
   const [customers, setcustomers] = useState([]);
+  const [custAdd, setcustAdd] = useState([]);
+
 
   useEffect(() => {
     async function getCustomers() {
       try {
-        const customer = await axios.get(`/api/customers`);
+        const customer = await axios.get(`/api/getCustomers`);
         setcustomers(customer.data);
         // console.log(cartitems.data);
       } catch (error) {
@@ -53,36 +57,95 @@ const Customers = () => {
   }, []);
 
   const total_customers = customers.length;
+  var weeklyRegistration = {};
+  var weeklyData = [];
 
-  // customers.forEach(order => {
-  //   total_revenue += parseInt(order.total);
-  //   total_prod_sold += parseInt(order.prod.length)
-  // });
+  customers.forEach(customer => {
+    // console.log(customer.created_at)
+    const date = new Date(customer.created_at);
+    const dt = { year: "numeric", month: "long", day: "numeric" };
+    const formattedDate = date.toLocaleDateString("en-US", dt);
+  
+    if (formattedDate in weeklyRegistration) {
+      weeklyRegistration[formattedDate] += 1;
+    } else {
+      weeklyRegistration[formattedDate] = 1;
+    }
+})
 
-  const options = {
+  for (const key in weeklyRegistration) {
+    if (weeklyRegistration.hasOwnProperty(key)) {
+      weeklyData.push({ label: key, y: weeklyRegistration[key] });
+    }
+  }
+
+  const weekly = {
     animationEnabled: true,
     exportEnabled: true,
-    theme: "light2", //"light1", "dark1", "dark2"
+    theme: "light1", //"light1", "dark1", "dark2"
     axisY: {
         includeZero: true
     },
 
     title: {
-      text: "Weekly Sales Report"
+      text: "Weekly Customer Registration"
     },
     data: [{        
       type: "column",  
-      dataPoints: [
-        { label: "Monday",  y: 10  },
-        { label: "Tuesday", y: 15  },
-        { label: "Wednesday", y: 25  },
-        { label: "Thursday",  y: 30  },
-        { label: "Friday",  y: 28  },
-        { label: "Saturday",  y: 28  },
-        { label: "Sunday",  y: 28  },
-      ]
+      dataPoints: weeklyData
     }]
   }
+
+
+  useEffect(() => {
+    async function getUserAddressReport() {
+      try {
+        const add = await axios.get(`/api/getUserAddressReport`);
+        setcustAdd(add.data);
+      } catch (error) {
+      }
+    }
+    getUserAddressReport();
+  }, []);
+
+
+  let locationGraph = {};
+  var locationData = [];
+  // fname.charAt(0).toUpperCase() + userData.fname.slice(1)
+custAdd.forEach(location => {
+  // let city = location.city.toLowerCase().charAt(0).toUpperCase() + location.city.slice(1);
+  let city = location.city.toUpperCase();
+  if (city in locationGraph) {
+    locationGraph[city] += 1;
+  } else {
+    locationGraph[city] = 1;
+  }
+});
+
+for (const key in locationGraph) {
+  if (locationGraph.hasOwnProperty(key)) {
+    locationData.push({ label: key, y: locationGraph[key] });
+  }
+}
+  const location = {
+    exportEnabled: true,
+    animationEnabled: true,
+    theme: "light2", //"light1", "dark1", "dark2"
+    title: {
+      text: "Customers By Locations"
+    },
+    data: [{
+      type: "pie",
+      startAngle: 75,
+      toolTipContent: "<b>{label}</b>: {y}%",
+      showInLegend: "true",
+      legendText: "{label}",
+      indexLabelFontSize: 16,
+      indexLabel: "{label} - {y}%",
+      dataPoints: locationData
+    }]
+  }
+
 
   return (
     <>
@@ -91,24 +154,22 @@ const Customers = () => {
       <div className="container-fluid d-flex gap-2 mt-2">
         <SideBar/>
         <Container>
-        <h3 className="text-center text-decoration-none">Registered Customers</h3>
+        <h3 className="text-center text-decoration-underline">Customers Report</h3>
 
-           <div className="d-flex justify-content-between mb-4 mt-4">
-           <ReportBox>
-               <span>Total Customers:</span> 
-               <span>{total_customers}</span>
-            </ReportBox>
-            <ReportBox>
-               <span>Total Revenue:</span> 
-               {/* <span>&#8377;{total_revenue}</span> */}
-            </ReportBox>
-
-            <ReportBox>
-               <span>Products Sold:</span> 
-               {/* <span>{total_prod_sold}</span> */}
+           <div className="d-flex justify-content-center mb-4 mt-4">
+           <ReportBox className="bg-primary">
+           <span>Total Registered Customers: <span className="text-warning">{total_customers}</span> 
+            </span>
             </ReportBox>
            </div>
-            <CanvasJSChart options={options} />
+           <section>
+            <CanvasJSChart options={weekly} />
+
+           </section>
+           <section className="mt-4">
+            <CanvasJSChart options={location} />
+            </section>
+
     
         </Container>
         

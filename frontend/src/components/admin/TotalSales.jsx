@@ -25,12 +25,14 @@ const Container = styled.div`
 `;
 const ReportBox = styled.div`
     width: 150px;
-    background-color: teal;
+    background-color: #08c4c4;
     color: white;
     padding: 15px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
+    border-radius: 50%;
+    height: 100px;
     align-items: center;
     justify-content: center;
     font-weight: 500;
@@ -154,7 +156,7 @@ for (const key in monthlyGraph) {
   const monthly = {
     animationEnabled: true,
     exportEnabled: true,
-    theme: "light2", //"light1", "dark1", "dark2"
+    theme: "light1", //"light1", "dark1", "dark2"
     axisY: {
         includeZero: true
     },
@@ -175,7 +177,7 @@ for (const key in monthlyGraph) {
       <div className="container-fluid d-flex gap-2 mt-2">
         <SideBar/>
         <Container>
-        <h3 className="text-center text-decoration-none">Sales Report</h3>
+        <h3 className="text-center text-decoration-underline">Sales Report</h3>
 
            <div className="d-flex justify-content-between mb-4 mt-4">
            <ReportBox>

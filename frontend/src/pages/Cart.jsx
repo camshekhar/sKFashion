@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import swal from 'sweetalert';
+import { type } from "@testing-library/user-event/dist/type";
 
 
 const Container = styled.div`
@@ -213,10 +214,10 @@ const MainButton = styled.button`
 
 const Cart = () => {
   const [cartitems, setCartitems] = useState([]);
+  // const [stockCount, setStockCount] = useState([]);
   var totalCartPrice = 0.00;
   const navigate = useNavigate();
   const cust_id = localStorage.getItem("cust_id");
-
 // Handling Increment and Decrement of products in Cart.
   const handleDecrement = (cart_id) => {
     setCartitems(cartitems =>
@@ -250,6 +251,11 @@ const Cart = () => {
         // const cartitems = await localStorage.getItem('product_data');
 
         setCartitems(cartitem.data);
+
+        // cartitems.forEach(prod => {
+        //   const stockCount = axios.get(`/api/getStockCount/${prod.id}`);
+        //   console.log(stockCount);
+        // });
         // console.log(cartitems);
       } catch (error) {
         console.log(error);
@@ -257,8 +263,9 @@ const Cart = () => {
     }
     getCartItems();
     
-  }, [cust_id, cartitems]);
+  }, [cust_id]);
 
+  
   function updateCartQuantity(cart_id, scope ){
    axios.put(`/api/updateCartQty/${cart_id}/${scope}/`).then(res =>{
      if (res.data.status === 200) {
@@ -268,17 +275,19 @@ const Cart = () => {
    })
  }
 
+//  var stock;
 const deleteCartItem = (e, cart_id) =>{
   e.preventDefault();
-  
   // const thisClicked = e.currentTarget[0];
   axios.delete(`/api/deleteCartItem/${cart_id}/`);
+  // localStorage.setItem('products', delete JSON.parse(localStorage.getItem('products')[cart_id]));
   navigate('/cart')
   swal("Item Removed", "Item removed from Cart.", "success");
 
   //  thisClicked.closest("div").remove();
 }
 
+  let inStock = "";
 
   var cartHTML = "";
   if (cartitems.length > 0) {
@@ -331,11 +340,13 @@ const deleteCartItem = (e, cart_id) =>{
                     <Ic>
                       <Icon.PlusSquare onClick={() => handleIncrement(item.id)}/>
                     </Ic>
+                    
                   </ProductAmountContainer>
                   <ProductPrice>&#8377;{(parseFloat(item.price) * parseInt(item.quantity))}</ProductPrice>
                   <Remove title="Remove Item" onClick={(e) => deleteCartItem(e, item.id)}>
                     <Icon.CartX />
                   </Remove>
+
                 </PriceDetail>
               </Product>
             )})}

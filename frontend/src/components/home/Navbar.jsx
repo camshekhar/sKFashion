@@ -237,7 +237,7 @@ const Navbar = () => {
     }
     getAllCategory();
     // console.log(cartitems)
-  }, [cust_id, cartitems]);
+  }, [cust_id]);
  
   // console.log(cartitems.length)
   var cartCount = 0;

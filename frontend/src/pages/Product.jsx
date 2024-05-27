@@ -226,6 +226,12 @@ const cust_id = localStorage.getItem("cust_id");
   
     // console.log(data);
     if (access_token) {
+      // let products = JSON.parse(localStorage.getItem('products'));
+      // if(!products){
+      //   products = {}
+      // }
+      // products[id] = stockCount
+      // localStorage.setItem('products', JSON.stringify(products));
       swal("Item Added to Cart", `${title} Successfully Added to your cart.`, "success");
       navigate("/cart");
     }else{
