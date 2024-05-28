@@ -19,6 +19,16 @@ transit = (
      ("Cancelled", "Cancelled" )
 
     )
+
+#product sizes.
+prod_sizes = (
+    ("S", "S" ),
+    ("M", "M" ),
+     ("L", "L" ),
+     ("XL", "XL" ),
+     ("8", "8" )
+
+    )
 # Custom User Manager..
 class UserManager(BaseUserManager):
     def create_user(self, email, fname, lname, username, password=None, password2 = None):
@@ -99,7 +109,8 @@ class User(AbstractBaseUser):
 class Category(models.Model):
     title = models.CharField(max_length= 100, primary_key = True)
     desc = models.CharField(max_length= 200)
-    image = models.CharField(max_length= 300)
+    image  = models.ImageField(upload_to="images/subCategory", default="no_img.jpg")
+
     
     def __str__(self):
         return self.title
@@ -109,7 +120,8 @@ class SubCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length= 100, primary_key = True)
     desc = models.CharField(max_length= 200)
-    image = models.CharField(max_length= 300)  
+    image  = models.ImageField(upload_to="images/subCategory", default="no_img.jpg")
+ 
     
     def __str__(self):
         return self.title
@@ -122,8 +134,8 @@ class Product(models.Model):
     title = models.CharField(max_length= 100)
     desc = models.CharField(max_length= 200)
     color = models.CharField(max_length= 100)
-    size = models.CharField(max_length= 100)
-    image  = models.CharField(max_length= 300)
+    size = models.CharField(max_length= 15, choices=prod_sizes)
+    image  = models.ImageField(upload_to="images/products", default="no_img.jpg")
     price = models.CharField(max_length= 100, default="0")
     stockCount = models.IntegerField(default="0")
     
@@ -131,10 +143,9 @@ class Product(models.Model):
         return self.title
     
 class Cart(models.Model):
-    id = models.CharField(max_length=20, primary_key = True)
+    id = models.AutoField(primary_key=True)
     cust = models.ForeignKey(User, models.CASCADE, default='null')
-    # cust = models.CharField(max_length= 100)
-
+    prod = models.ForeignKey(Product, models.CASCADE, default="0")
     title = models.CharField(max_length= 100)
     color = models.CharField(max_length= 100)
     size = models.CharField(max_length= 20)
@@ -163,7 +174,7 @@ class Cart(models.Model):
 
 class Feedback(models.Model):
     id = models.CharField(max_length=20,  primary_key = True)
-    prod = models.ForeignKey(Product, on_delete=models.DO_NOTHING, default='0')
+    prod = models.ForeignKey(Product, on_delete=models.CASCADE, default='0')
     cust = models.ForeignKey(User, on_delete=models.DO_NOTHING, default='0')
     rating = models.IntegerField(default='0')
     comment = models.CharField(max_length= 100) 

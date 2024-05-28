@@ -24,7 +24,7 @@ display: flex;
 flex-wrap: wrap;
 padding: 2px;
 margin: 4px;
-width: 100%;
+width: 50%;
 height: 350px;
 align-items: center;
 justify-content: center;
@@ -48,7 +48,7 @@ const Image = styled.img`
 max-width: 250px;
 max-height: 250px;
 object-fit: cover;
-border-radius: 30%;
+border-radius: 50%;
 align-items: center;
 z-index: 2;
 `;
@@ -87,9 +87,12 @@ transition: all 0.5s ease;
 const Product = ({item}) => {
   return (
     <>
+
+
+        {/* <div className="d-flex"> */}
     <Container>
         <Circle/>
-        <Image src={item.image}/>
+        <Image src={`http://localhost:8000${item.image}`}/>
         <Info>
             
             <Icons>
@@ -107,8 +110,7 @@ const Product = ({item}) => {
         </Info>
        
     </Container>
-  
-    
+    {/* </div> */}
     </>
   )
 }

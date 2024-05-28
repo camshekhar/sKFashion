@@ -4,7 +4,6 @@ import * as Icon from "react-bootstrap-icons";
 import { mobile } from "../../responsive";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useState, useEffect } from "react";
 import { getToken, removeToken } from "../../services/LocalStorageService";
 import { unSetUserToken } from "../../features/authSlice";
 import { useDispatch } from "react-redux/es/exports";
@@ -52,32 +51,7 @@ ${mobile({ maxHeight: "40px"})}
 `;
 
 
-const Navigation = () => {
-  const { access_token } = getToken();
-  const {data, isSuccess} = useGetLoggedUserQuery(access_token);
-  // const cust_id = localStorage.getItem("cust_id");
-
-  const [userData, setUserData] = useState({
-    id: null,
-    email: "",
-    name: "",
-    fname: "",
-    lname: "",
-   
-  });
-
-  useEffect(() => {
-    if (data && isSuccess) {
-      setUserData({
-        id: data.id,
-        email: data.email,
-        fname: data.fname,
-        lname: data.lname,
-      })
-      
-    }
-  }, [data, isSuccess]);
-
+const Navigation = (username) => {
   const navigate = useNavigate();
   // console.log(userData.id)
 //   useEffect(() => {
@@ -114,11 +88,14 @@ const Navigation = () => {
         <Center>
         <LogoImg src={logo}/>
             <Logo>
-              <Link to="/admin" style={{ textDecoration: "none", color: "black" }}>
+              <Link to="/admin-dashboard" style={{ textDecoration: "none", color: "black" }}>
                  Admin Dashboard
               </Link>
             </Logo>
           </Center>
+          <div className="float-end">
+            {/* <span>{username}</span> */}
+          </div>
         </Wrapper>
       </Container>
     </>

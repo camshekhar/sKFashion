@@ -150,7 +150,7 @@ const CatalogueSlider = () => {
         {product.map((item, i) => (
           <Slide bg={item.bg} key={i}>
             <ImageContainer>
-              <Image src={item.image}/>
+              <Image src={`http://localhost:8000${item.image}`}/>
             </ImageContainer>
             <InfoContainer>
               <Title>{item.title}</Title>

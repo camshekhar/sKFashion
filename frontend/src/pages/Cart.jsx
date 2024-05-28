@@ -314,7 +314,7 @@ const deleteCartItem = (e, cart_id) =>{
               return(
               <Product key={i}>
                 <ProductDetails>
-                  <Image src={item.image} />
+                  <Image src={`http://localhost:8000${item.image}`} />
                   <Details>
                     <ProductName>
                       <b>Product: </b>

@@ -22,11 +22,15 @@ import ScrollToTop from './components/ScrollToTop';
 import Admin from './pages/Admin';
 import TotalSales from './components/admin/TotalSales';
 import Customers from './components/admin/Customers';
+import ProductsReport from './components/admin/ProductsReport';
+import AdminLogin from './pages/AdminLogin';
 
 
 
 const App = () => {
   const { access_token } = useSelector(state => state.auth);
+  const admin_email = localStorage.getItem('admin')
+  // console.log(admin_email)
   return (
     <>
     <div className='root'>
@@ -45,9 +49,11 @@ const App = () => {
           <Route path="/payment" element={!access_token ? <Login/> :<Payment/>} />
           <Route path="/myOrders" element={!access_token ? <Login/> :<MyOrders/>} />
           <Route path="/orderInvoice" element={!access_token ? <Login/> :<Invoice/>} />
-          <Route path="/admin" element={<Admin />}/>
-          <Route path="/admin/totalSales" element={<TotalSales />}/>
-          <Route path="/admin/customers" element={<Customers/>}/>
+          <Route path="/admin-login" element={!access_token && admin_email !== "admin@skfashion.com" ? <AdminLogin/> : <Admin/>}/>
+          <Route path="/admin-dashboard" element={!access_token ? <AdminLogin/> : <Admin />}/>
+          <Route path="/admin/totalSales" element={!access_token ? <AdminLogin/> : <TotalSales />}/>
+          <Route path="/admin/customers" element={!access_token ? <AdminLogin/> : <Customers/>}/>
+          <Route path="/admin/products" element={!access_token ? <AdminLogin/> : <ProductsReport/>}/>
 
         </Routes>  
 

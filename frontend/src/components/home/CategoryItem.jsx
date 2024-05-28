@@ -55,7 +55,7 @@ const CategoryItem = ({item}) => {
   return (
     <>
     <Container>
-        <Image src={item.image}/>
+        <Image src={`http://localhost:8000${item.image}`}/>
         <Info>
             <Title>{item.title}</Title>
             <Link to={`/${item.title}`}><Button>SHOP NOW</Button></Link>

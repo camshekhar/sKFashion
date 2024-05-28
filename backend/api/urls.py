@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 
+
 urlpatterns = [
     # Authentication URLs...
     path('user/registration/', views.userRegistration, name='register'),
@@ -35,6 +36,11 @@ urlpatterns = [
     path('getTotalSales/', views.getTotalSales),
     path('getStockCount/<str:prod_id>/', views.getStockCount),
     path('getUserAddressReport/', views.getUserAddressReport),
+    path('productsReport/', views.productsReport),
+    path('updateProdStock/<str:id>/<str:quantity>/', views.updateProdStock),
+
+
+
 
 
 
@@ -44,3 +50,4 @@ urlpatterns = [
      
 
 ]
+

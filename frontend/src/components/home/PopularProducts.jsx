@@ -105,7 +105,7 @@ const PopularProducts = () => {
       
         {popularProducts.map((item, i) => (
           <Wrapper key={i}>
-            <Image src={item.image} />
+            <Image src={`http://localhost:8000${item.image}`} />
             <Info>
                 <Title>{item.title}</Title>
               <Icons>

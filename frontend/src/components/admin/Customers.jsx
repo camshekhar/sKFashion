@@ -29,13 +29,14 @@ const ReportBox = styled.div`
     color: white;
     padding: 15px;
     border-radius: 50%;
-    height: 200px;
+    height: 150px;
 
     display: flex;
     /* flex-direction: column; */
     align-items: center;
     justify-content: center;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 1.2rem;
 
 `;
 const Customers = () => {
@@ -158,7 +159,7 @@ for (const key in locationGraph) {
 
            <div className="d-flex justify-content-center mb-4 mt-4">
            <ReportBox className="bg-primary">
-           <span>Total Registered Customers: <span className="text-warning">{total_customers}</span> 
+           <span><Icon.PersonCheckFill/> Customers: <span className="text-warning">{total_customers}</span> 
             </span>
             </ReportBox>
            </div>

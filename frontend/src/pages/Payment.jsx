@@ -190,21 +190,51 @@ const Payment = () => {
    
     console.log(actualData);
 
-    axios.post(`/api/saveOrderDetail/`, actualData).then((res) => {
-      if (res.data) {
-        swal("Order Placed SuccessFully", "Thanks For Shopping With Us", "success");
-        axios.delete(`/api/emptyOrderedCart/${cust_id}/`);
-        localStorage.removeItem("paymentMode")
-        localStorage.removeItem("add_id")
-        localStorage.removeItem("transaction_id")
-        localStorage.removeItem("totalCartPrice")
+    cartitems.forEach(cartitem => {
+     
+        // async function getStock() {
+        //   try {
+          var stock;
+            axios.get(`/api/getStockCount/${cartitem.id}`).then(res =>{
+              console.log(res.data)
+              if(res.data > 0){
+                axios.post(`/api/saveOrderDetail/`, actualData).then((res) => {
+                  if (res.data) {
+                    swal("Order Placed SuccessFully", "Thanks For Shopping With Us", "success");
+                    cartitems.forEach(cartitem => {
+                      axios.put(`/api/updateProdStock/${cartitem.id}/${cartitem.quantity}/`);
+                    });
+                    axios.delete(`/api/emptyOrderedCart/${cust_id}/`);
+                    localStorage.removeItem("paymentMode")
+                    localStorage.removeItem("add_id")
+                    localStorage.removeItem("transaction_id")
+                    localStorage.removeItem("totalCartPrice")
+            
+                    navigate("/myOrders");
+                  }else{
+                    navigate("/cart");
+                    swal("Order Not Placed!", "Something Went Wrong. Try Again", "warning");
+            
+                  }
+                });
+              }
+              else{
+                navigate("/cart");
 
-        navigate("/myOrders", "_blank");
-      }else{
-        swal("Order Not Placed!", "Something Went Wrong. Try Again", "warning");
+                swal("Order Not Placed!", "Some Item is Out of Stock", "error");
 
-      }
-    });
+              }
+            });
+          
+            console.log(stock);
+        //   } catch (error) {
+        //     // console.log(error);
+        //   }
+        // }
+        // getStock();
+      })
+
+    
   
   }
   return (

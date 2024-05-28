@@ -155,7 +155,7 @@ const cancelOrder = (e, order_id) =>{
             <div className="row g-0">
               <div className="col-md-3">
                 <img
-                  src={prod.image}
+                  src={`http://localhost:8000${prod.image}`}
                   className="img-fluid rounded-start"
                   alt="..."
                   style={{maxHeight: "300px", marginLeft: "10px", padding: "10px", width: "200px"}}

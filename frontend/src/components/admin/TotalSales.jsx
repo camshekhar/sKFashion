@@ -82,9 +82,11 @@ const TotalSales = () => {
   var x_label = [];
   var cnt = 0;
   for (const key in weeklyGraph) {
-    if (week == 7) {
-      week = 6;
-      continue;
+    if(weeklyGraph.length > 7){
+      if (week == 7) {
+        week = 6;
+        continue;
+      }
     }
     if (weeklyGraph.hasOwnProperty(key) && week >= 0) {
       weeklyData.push({ x: weeklyGraph[key[cnt-1]], y: weeklyGraph[key] });
@@ -94,6 +96,8 @@ const TotalSales = () => {
     week -= 1;
   } 
 // console.log(weeklyData)
+
+
   let monthlyGraph = {
     "January" : 0,
     "February" : 0,
@@ -122,7 +126,7 @@ for (const key in monthlyGraph) {
   }
 }
 // console.log()
-  const daily = {
+  const wwekly = {
     animationEnabled: true,
     exportEnabled: true,
     theme: "light2", //"light1", "dark1", "dark2"
@@ -195,7 +199,7 @@ for (const key in monthlyGraph) {
             </ReportBox>
            </div>
            <section>
-            <CanvasJSChart options={daily} />
+            <CanvasJSChart options={wwekly} />
           </section>
 
           <section className="mt-4">

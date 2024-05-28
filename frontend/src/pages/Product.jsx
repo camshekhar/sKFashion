@@ -120,6 +120,7 @@ const AmountContainer = styled.div`
   display: flex;
   font-weight: 600;
   align-items: center;
+  margin-top: 10px;
 `;
 const AmountText = styled.span`
   font-size: 16px;
@@ -199,7 +200,7 @@ const cust_id = localStorage.getItem("cust_id");
   };
 
   const handleIncrement = () => {
-    if (quantity < 10) {
+    if (quantity < 6) {
       setQuantity((prevCount) => prevCount + 1);
     }
   };
@@ -241,10 +242,17 @@ const cust_id = localStorage.getItem("cust_id");
 
   // eslint-disable-next-line
   var avail_stock;
+  var limitedStock = "";
+  if (stockCount < 10) {
+    limitedStock = (
+      <span className="text-danger">Hurry Up! Only {stockCount} left</span>
+    )
+  }
   if (stockCount > 0) {
     avail_stock = (
       <AddContainer>
-        <InStock>In Stock</InStock>
+        <InStock>In Stock</InStock> 
+        {limitedStock}
         <AmountContainer>
           <AmountText>Quantity:</AmountText>
           <Ic>
@@ -279,7 +287,7 @@ const cust_id = localStorage.getItem("cust_id");
         <Wrapper>
        
           <ImageContainer>
-            <Image src={image} />
+            <Image src={`http://localhost:8000${image}`} />
           </ImageContainer>
           <InfoContainer>
             <Title>{title}</Title>
@@ -300,12 +308,12 @@ const cust_id = localStorage.getItem("cust_id");
               <Filter>
                 <FilterText>Size:</FilterText>
 
-                <Select defaultValue={"M"}>
-                  <Option value={"L"}>L</Option>
-                  <Option value={"M"}>M</Option>
+                <Select defaultValue={"Select Size"}>
+                  <Option value={size}>{size}</Option>
+                  {/* <Option value={"M"}>M</Option>
 
                   <Option value={"S"}>S</Option>
-                  <Option value={"XS"}>XS</Option>
+                  <Option value={"XS"}>XS</Option> */}
                 </Select>
               </Filter>
             </FilterContainer>

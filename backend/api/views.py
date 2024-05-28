@@ -53,7 +53,7 @@ def userChangePassword(request):
 @permission_classes((IsAuthenticated, )) 
 def userProfile(request):  
     userSerializer = UserProfileSerializer(request.user)
-    # print(userSerializer.data)
+    print(userSerializer.data)
     return Response(userSerializer.data, status=status.HTTP_200_OK)
 
 
@@ -121,6 +121,12 @@ def productDetails(request, subCategory):
     return Response(serializer.data)
 
 @api_view(['GET'])
+def productsReport(request):
+    product = Product.objects.all()
+    serializer = ProductSerializer(product, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
 def categories(request):
     category = Category.objects.all()
     serializer = CategorySerializer(category, many= True)
@@ -179,7 +185,7 @@ def deleteCartItem(request, id):
 @api_view(['POST'])
 def saveOrderDetail(request):
     order = OrderSummarySerializer(data = request.data)
-    print(order)
+    # print(order)
     if order.is_valid():
         order.save()
         # message = "Item Added to Cart"
@@ -271,6 +277,13 @@ def searchResults(request, slug):
     serializer = SubCategorySerializer(search_results, many= True)
     # print(serializer.data)
     return Response(serializer.data)
+
+@api_view(['PUT'])
+def updateProdStock(request, id, quantity):
+    prodItem = Product.objects.get(id = id)
+    prodItem.stockCount = int(prodItem.stockCount) - int(quantity)
+    print("Stock Updated Successfuly")
+    return Response(status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
