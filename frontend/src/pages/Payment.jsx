@@ -11,11 +11,12 @@ import * as Icon from "react-bootstrap-icons";
 import swal from "sweetalert";
 
 import QR from "../images/my-qr-code.jpg";
+import { isDisabled } from "@testing-library/user-event/dist/utils";
 
 
 const Container = styled.div`
   display: flex;
-  height: 50vh;
+  /* height: 50vh; */
   margin: 1rem;
   justify-content: center;
   align-items: center;
@@ -55,6 +56,8 @@ const MainButton = styled.button`
 const Right = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   flex: 1;
   width: 100%;
   height: 100%;
@@ -106,7 +109,7 @@ const ConfirmOrder = styled.button`
   border: none;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 10px;
 
   &:hover {
@@ -119,7 +122,9 @@ const Payment = () => {
 //   const [addresses, setAddresses] = useState([]);
   const cust_id = localStorage.getItem("cust_id");
   const navigate = useNavigate();
-  var count = 1;
+  var ccount = 1;
+  var Qcount = 1;
+
     
 
   useEffect(() => {
@@ -144,23 +149,19 @@ const Payment = () => {
   }
 
   const handleQRMode = () =>{
-    localStorage.removeItem("paymentMode");
-    count++;
-    if(count%2 !==0 ){
-      localStorage.removeItem("paymentMode");
-    }else{
+    const temp = document.getElementById('transaction_id')
+    temp.disabled = false
       localStorage.setItem("paymentMode", "UPI QR Code");
-    } 
+   
   }
 
   const handleCODMode = () =>{
-    localStorage.removeItem("paymentMode");
-    count++;
-    if(count%2 !==0 ){
-      localStorage.removeItem("paymentMode");
-    }else{
+
+    const temp = document.getElementById('transaction_id')
+    temp.disabled = true
       localStorage.setItem("paymentMode", "Cash On Delivery(COD)");
-    } 
+      localStorage.setItem("transaction_id", Math.floor((Math.random() * 3000) + 1))
+
   }
 
   const handleConfirmOrder = (e) => {
@@ -175,6 +176,8 @@ const Payment = () => {
         subtotal = subtotal+parseInt(item.price, 10);
         total += (item.price*item.quantity);
     });
+
+    // var paymentMode
   
     const actualData = {
     //   id: Math.floor((Math.random() * 100) + 1),
@@ -184,7 +187,7 @@ const Payment = () => {
       subTotal: subtotal,
       discount: 0,
       total: total,
-      paymentMode: localStorage.getItem("paymentMode") ? localStorage.getItem("paymentMode") : Math.floor((Math.random() * 40000) + 1),
+      paymentMode: localStorage.getItem("paymentMode"),
       transaction_id: localStorage.getItem("transaction_id"),
     };
    
@@ -195,14 +198,14 @@ const Payment = () => {
         // async function getStock() {
         //   try {
           var stock;
-            axios.get(`/api/getStockCount/${cartitem.id}`).then(res =>{
-              console.log(res.data)
+            axios.get(`/api/getStockCount/${cartitem.prod}`).then(res =>{
+              // console.log(res.data)
               if(res.data > 0){
                 axios.post(`/api/saveOrderDetail/`, actualData).then((res) => {
                   if (res.data) {
                     swal("Order Placed SuccessFully", "Thanks For Shopping With Us", "success");
                     cartitems.forEach(cartitem => {
-                      axios.put(`/api/updateProdStock/${cartitem.id}/${cartitem.quantity}/`);
+                      axios.put(`/api/updateProdStock/${cartitem.prod}/${cartitem.quantity}/`);
                     });
                     axios.delete(`/api/emptyOrderedCart/${cust_id}/`);
                     localStorage.removeItem("paymentMode")
@@ -245,27 +248,29 @@ const Payment = () => {
       <h3 className="text-center text-decoration-underline mb-4">Choose Your Payment Mode: </h3>
       <h4 className="text-center text-success">Total Order Amount: <strong>&#8377;{localStorage.getItem("totalCartPrice")}</strong></h4>
       <Container>
+      <Form className="form-control">
         <Left>
             
           <p>
-          <input type="checkbox" id="qr" onClick={handleQRMode}/> Pay Using QR Code</p>
+          <input type="radio" id="qr" name="paymentMode" onClick={handleQRMode}/> Pay Using QR Code</p>
           <QRCode src={QR}/>
-          <Form className="form-control">
+       
             <label> Transaction ID:</label>
             <Input className="form-control" id = "transaction_id" placeholder="Enter Transaction ID" onChange={handleTID}/>
-          </Form>
+
         </Left>
         <Right>
             <p>Other Payment Options: </p>
-          <Form className="form-control">
+ 
 
-          <h3 style={{fontSize: "1.2rem"}}><input type="checkbox" id="cod" onClick={handleCODMode}/> Cash On Delivery(COD)</h3>
+          <h3 style={{fontSize: "1.2rem"}}><input type="radio" id="cod" name="paymentMode" onClick={handleCODMode}/> Cash On Delivery(COD)</h3>
 
-          </Form>
           
         </Right>
+        </Form>
+        
       </Container>
-<div className="text-center mb-4">
+      <div className="text-center">
 <ConfirmOrder onClick={handleConfirmOrder}>Confirm Order</ConfirmOrder>
 
 </div>

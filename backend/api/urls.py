@@ -37,7 +37,7 @@ urlpatterns = [
     path('getStockCount/<str:prod_id>/', views.getStockCount),
     path('getUserAddressReport/', views.getUserAddressReport),
     path('productsReport/', views.productsReport),
-    path('updateProdStock/<str:id>/<str:quantity>/', views.updateProdStock),
+    path('updateProdStock/<str:prod_id>/<str:quantity>/', views.updateProdStock),
 
 
 

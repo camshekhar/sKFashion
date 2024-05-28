@@ -46,7 +46,7 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Product, ProductAdmin) 
 
 class CartAdmin(admin.ModelAdmin):
-    list_display = ('id', 'cust_id', 'title', 'color', 'size', 'price', 'quantity')
+    list_display = ('id','prod_id', 'cust_id', 'title', 'color', 'size', 'price', 'quantity')
    
 admin.site.register(Cart, CartAdmin) 
 

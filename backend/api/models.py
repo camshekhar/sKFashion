@@ -152,10 +152,8 @@ class Cart(models.Model):
     image  = models.CharField(max_length= 400)
     quantity = models.IntegerField()
     price = models.CharField(max_length= 100, default="0")
-    # stockCount = models.CharField(max_length=20, default="0")
+ 
    
-
-
 # class PopularProducts(models.Model):
 #     subCategory = models.ForeignKey(SubCategory, on_delete=models.DO_NOTHING, default="ffsf")
 #     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, default="dfd")
@@ -203,7 +201,7 @@ class OrderSummary(models.Model):
     total = models.CharField(max_length=100)   
     paymentMode = models.CharField(max_length=20)
     paymentStatus = models.CharField(max_length=20, choices=status, default="pending")
-    transaction_id = models.CharField(max_length=10, null=True, blank=True)
+    transaction_id = models.CharField(max_length=30, null=True, blank=True)
     transit_status =  models.CharField(max_length=20, choices=transit, default="Ordered")
 
     # cust = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -209,7 +209,7 @@ const cust_id = localStorage.getItem("cust_id");
     e.preventDefault();
 
     const data = {
-      id: id,
+      prod: id,
       cust: cust_id,
       title: title,
       color: color,

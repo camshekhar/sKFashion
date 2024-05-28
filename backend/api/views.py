@@ -279,15 +279,16 @@ def searchResults(request, slug):
     return Response(serializer.data)
 
 @api_view(['PUT'])
-def updateProdStock(request, id, quantity):
-    prodItem = Product.objects.get(id = id)
+def updateProdStock(request, prod_id, quantity):
+    prodItem = Product.objects.get(id = prod_id)
     prodItem.stockCount = int(prodItem.stockCount) - int(quantity)
-    print("Stock Updated Successfuly")
+    prodItem.save()
     return Response(status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
 def getStockCount(request, prod_id):
+    print(prod_id)
     stockCount = Product.objects.get(id=prod_id).stockCount
     print(stockCount)
     return Response(stockCount)
