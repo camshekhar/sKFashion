@@ -52,7 +52,7 @@ const TotalSales = () => {
       }
     }
     getMyOrders();
-  }, []);
+  }, [sales]);
   
   
  
@@ -70,25 +70,31 @@ const TotalSales = () => {
     const date = new Date(order.date);
     const dt = { year: "numeric", month: "long", day: "numeric" };
     const formattedDate = date.toLocaleDateString("en-US", dt);
-  
-    if (formattedDate in weeklyGraph) {
-      weeklyGraph[formattedDate] += 1;
-    } else {
-      weeklyGraph[formattedDate] = 1;
-    }
+    
+    const currentDate = new Date().getDate()
+ 
+    if (currentDate - date.getDate() <= 7) {
+      
+      if (formattedDate in weeklyGraph) {
+        weeklyGraph[formattedDate] += 1;
+      } else {
+        weeklyGraph[formattedDate] = 1;
+      }
+  }
   });
 
-  var week = 7;
+  // console.log(weeklyGraph)
+  var week = 8;
   var x_label = [];
   var cnt = 0;
   for (const key in weeklyGraph) {
-    if(weeklyGraph.length > 7){
-      if (week == 7) {
-        week = 6;
+    // if(weeklyGraph.length > 7){
+      if (week > 7) {
+        week -= 1
         continue;
       }
-    }
-    if (weeklyGraph.hasOwnProperty(key) && week >= 0) {
+    // }
+    if (weeklyGraph.hasOwnProperty(key) && week > 0) {
       weeklyData.push({ x: weeklyGraph[key[cnt-1]], y: weeklyGraph[key] });
       x_label.push(key);
     }
@@ -96,6 +102,8 @@ const TotalSales = () => {
     week -= 1;
   } 
 // console.log(weeklyData)
+
+
 
 
   let monthlyGraph = {

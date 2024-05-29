@@ -263,7 +263,7 @@ const Cart = () => {
     }
     getCartItems();
     
-  }, [cust_id]);
+  }, [cust_id, cartitems]);
 
   
   function updateCartQuantity(cart_id, scope ){

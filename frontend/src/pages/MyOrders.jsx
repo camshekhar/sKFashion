@@ -130,6 +130,7 @@ const MyOrders = () => {
 
   // console.log(orders);
  
+// var sorted_orders = orders.reverse();
 
   const showInvoice = (e, order_id) =>{
     e.preventDefault();

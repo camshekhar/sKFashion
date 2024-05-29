@@ -143,18 +143,16 @@ const Footer = () => {
                   <ListItem><Link to="/myOrders" style={{textDecoration: "none", color: "#fff"}}>Order Tracking</Link></ListItem>
                   <ListItem>Wishlist</ListItem>
                   <ListItem><Link to={'/admin-login'} style={{textDecoration: "none", color: "#fff"}}>Admin</Link></ListItem>
-                  <ListItem>Terms</ListItem>
-
-
+                  <ListItem><Link to={'/contact-us'} style={{textDecoration: "none", color: "#fff"}}>Contact Us</Link></ListItem>
               </List>
           </Center>
           <Right>
               <Title>Contact</Title>
               <ContactItem>
-                 <Icon.GeoAltFill style={{marginRight:"10px"}}/> Akurdi, Pune - 411035
+                 <Icon.GeoAltFill style={{marginRight:"10px"}}/> At - DYPIMCA, Akurdi, Pune - 411035
               </ContactItem>
               <ContactItem>
-               <Icon.TelephoneForwardFill style={{marginRight:"10px"}}/> +91-<a href="tel:9999999999" style={{textDecoration: "None"}}>9999999999</a>
+               <Icon.TelephoneForwardFill style={{marginRight:"10px"}}/> +91-<a href="tel:8409394478" style={{textDecoration: "None"}}>8409394478</a>
               </ContactItem>
               <ContactItem>
               <Icon.EnvelopeOpenFill style={{marginRight:"10px"}}/><a href="mailto:contact@skfashion.com" style={{textDecoration: "None"}}>contact@skfashion.com</a>

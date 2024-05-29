@@ -55,7 +55,7 @@ const Customers = () => {
       }
     }
     getCustomers();
-  }, []);
+  }, [customers]);
 
   const total_customers = customers.length;
   var weeklyRegistration = {};
@@ -80,6 +80,7 @@ const Customers = () => {
     }
   }
 
+  // console.log(weeklyData)
   const weekly = {
     animationEnabled: true,
     exportEnabled: true,
@@ -112,20 +113,23 @@ const Customers = () => {
 
   let locationGraph = {};
   var locationData = [];
+  var totalCities = 0
   // fname.charAt(0).toUpperCase() + userData.fname.slice(1)
 custAdd.forEach(location => {
   // let city = location.city.toLowerCase().charAt(0).toUpperCase() + location.city.slice(1);
   let city = location.city.toUpperCase();
   if (city in locationGraph) {
     locationGraph[city] += 1;
+    totalCities += 1
   } else {
+    totalCities += 1
     locationGraph[city] = 1;
   }
 });
-
+// console.log(totalCities)
 for (const key in locationGraph) {
   if (locationGraph.hasOwnProperty(key)) {
-    locationData.push({ label: key, y: locationGraph[key] });
+    locationData.push({ label: key, y: (locationGraph[key] / totalCities) * 100});
   }
 }
   const location = {

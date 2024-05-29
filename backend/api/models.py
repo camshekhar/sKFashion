@@ -203,8 +203,8 @@ class OrderSummary(models.Model):
     shippingCharge = models.CharField(max_length= 100, default="100")
     total = models.CharField(max_length=100)   
     paymentMode = models.CharField(max_length=20)
-    paymentStatus = models.CharField(max_length=20, choices=status, default="pending")
-    transaction_id = models.CharField(max_length=30, null=True, blank=True)
+    paymentStatus = models.CharField(max_length=100, choices=status, default="pending")
+    transaction_id = models.CharField(max_length=100, null=True, blank=True)
     transit_status =  models.CharField(max_length=20, choices=transit, default="Ordered")
 
     # cust = models.ForeignKey(User, on_delete=models.CASCADE)

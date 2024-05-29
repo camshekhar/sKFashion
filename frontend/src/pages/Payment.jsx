@@ -159,8 +159,8 @@ const Payment = () => {
 
     const temp = document.getElementById('transaction_id')
     temp.disabled = true
-      localStorage.setItem("paymentMode", "Cash On Delivery(COD)");
-      localStorage.setItem("transaction_id", Math.floor((Math.random() * 3000) + 1))
+      localStorage.setItem("paymentMode", "COD");
+      localStorage.setItem("transaction_id", "000000000000")
 
   }
 
@@ -256,7 +256,7 @@ const Payment = () => {
           <QRCode src={QR}/>
        
             <label> Transaction ID:</label>
-            <Input className="form-control" id = "transaction_id" placeholder="Enter Transaction ID" onChange={handleTID}/>
+            <Input className="form-control" id = "transaction_id" placeholder="Enter 12-digit Transaction ID" onChange={handleTID} maxLength={12}/>
 
         </Left>
         <Right>
