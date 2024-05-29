@@ -38,6 +38,7 @@ urlpatterns = [
     path('getUserAddressReport/', views.getUserAddressReport),
     path('productsReport/', views.productsReport),
     path('updateProdStock/<str:prod_id>/<str:quantity>/', views.updateProdStock),
+    path('cancelOrder/<str:order_id>/', views.cancelOrder),
 
 
 

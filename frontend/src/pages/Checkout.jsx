@@ -349,13 +349,13 @@ const Checkout = () => {
               <u>New Address</u>
             </Title>
             {/* <FormData> */}
-              <Input className="form-control" type={"phone"} name="mobile" placeholder="Phone Number" maxLength={10}/>
+              <Input className="form-control" type={"phone"} name="mobile" placeholder="Phone Number" minLength={10} maxLength={10}/>
               <Input className="form-control" type={"email"} name="email" placeholder="Email Address" />
               <Input className="form-control" placeholder="Street" name="street" />
               <Input className="form-control" placeholder="Landmarks" name="landmark" />
               <Input className="form-control" placeholder="City"  name="city"/>
               <Input className="form-control" placeholder="State"  name="state"/>
-              <Input className="form-control" placeholder="Pincode" name="pincode" maxLength={6}/>
+              <Input className="form-control" placeholder="Pincode" name="pincode" minLength={6} maxLength={6}/>
               <AddButton className="form-control" type="submit">Add Address</AddButton>
             {/* </FormData> */}
           </Form>

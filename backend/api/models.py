@@ -7,7 +7,10 @@ from django.contrib.auth.models import (
 status = (
     ("pending", "pending" ),
      ("success", "success" ),
-     ("failed", "failed" )
+     ("failed", "failed" ),
+     ("Refund Initiated", "Refund Initiated"),
+     ("Refunded", "Refunded" ),
+
     )
 
 #transit Status.

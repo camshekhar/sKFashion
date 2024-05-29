@@ -292,4 +292,12 @@ def getStockCount(request, prod_id):
     stockCount = Product.objects.get(id=prod_id).stockCount
     print(stockCount)
     return Response(stockCount)
-    
+
+@api_view(['PUT'])
+def cancelOrder(request, order_id):
+    order = OrderSummary.objects.get(id = order_id)
+    order.transit_status = "Cancelled"
+    order.paymentStatus = "Refund Initiated"
+    order.save()
+    return Response(status=status.HTTP_201_CREATED)
+

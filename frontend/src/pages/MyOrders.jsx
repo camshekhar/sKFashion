@@ -126,7 +126,7 @@ const MyOrders = () => {
       }
     }
     getMyOrders();
-  }, [cust_id]);
+  }, [cust_id, orders]);
 
   // console.log(orders);
  
@@ -138,12 +138,15 @@ const MyOrders = () => {
   }
 const cancelOrder = (e, order_id) =>{
   e.preventDefault()
-  axios.delete(`/api/cancelOrder/${order_id}/`);
+  axios.put(`/api/cancelOrder/${order_id}/`);
   navigate('/myOrders')
   swal("Order Cancelled", "Order Cancelled Successfully", "success");
 
   //  thisClicked.closest("div").remove();
 }
+
+var cancel;
+
   var myOrders;
   if (orders.length > 0) {
     myOrders = (
@@ -200,11 +203,16 @@ const cancelOrder = (e, order_id) =>{
                   <button className="btn btn-success mb-4" onClick={(e) => showInvoice(e, order.id)}>
                    <Icon.Receipt/>  Show Invoice
                   </button><br/>
+                  {/* {cancel = ( " " ) ? order.transit_status.toLowerCase() == "cancelled" : cancel =( <button className="btn btn-danger mb-4" onClick={(e) => cancelOrder(e, order.id)}><Icon.XCircle /> Cancel Order</button>)}
+                  {cancel} */}
 
-                  <button className="btn btn-danger mb-4" onClick={(e) => cancelOrder(e, order.id)}>
-                    <Icon.XCircle /> Cancel Order
-                  </button>
-                 
+{order.transit_status.toLowerCase() === "cancelled" ? (
+        <span className="bg-danger text-white p-2">Order is Cancelled</span>
+      ) : (
+        <button className="btn btn-danger mb-4" onClick={(e) => cancelOrder(e, order.id)}>
+          <Icon.XCircle /> Cancel Order
+        </button>
+      )}
                 </div>
               </div>
             </div>

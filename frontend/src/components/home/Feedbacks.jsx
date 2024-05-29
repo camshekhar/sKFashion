@@ -78,7 +78,7 @@ const Feedbacks = () => {
       }
     }
     getFeedbacks();
-  }, [prod_id]);
+  }, [prod_id, feeds]);
 
   // console.log(feeds);
   var show_feeds;

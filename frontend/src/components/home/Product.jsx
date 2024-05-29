@@ -24,7 +24,7 @@ display: flex;
 flex-wrap: wrap;
 padding: 2px;
 margin: 4px;
-width: 50%;
+width: 30%;
 height: 350px;
 align-items: center;
 justify-content: center;
@@ -85,22 +85,31 @@ transition: all 0.5s ease;
 // `;
 
 const Product = ({item}) => {
+
+    const handleViewProd = () =>{
+        
+    }
   return (
     <>
 
 
-        {/* <div className="d-flex"> */}
+        <div className="d-flex justify-content-center w-100">
+    <h3>{item.title}</h3>
+
     <Container>
+        
         <Circle/>
         <Image src={`http://localhost:8000${item.image}`}/>
         <Info>
             
-            <Icons>
+            {/* <Icons>
+            <Link to={`/${item.category}/${item.title}`} style={{textDecoration: "none", color: "black"}}><Icon.Search />  </Link> 
                 <Icon.CartPlus/>
+            <Link/>
                
-            </Icons>
+            </Icons> */}
             <Icons>
-            <Link to={`/${item.category}/${item.title}`} style={{textDecoration: "none", color: "black"}}><Icon.Search />  </Link>
+            <Link to={`/${item.category}/${item.title}`} style={{textDecoration: "none", color: "black"}}><Icon.Search onClick={handleViewProd} />  </Link>
                
             </Icons>
             <Icons>
@@ -110,7 +119,8 @@ const Product = ({item}) => {
         </Info>
        
     </Container>
-    {/* </div> */}
+
+    </div>
     </>
   )
 }

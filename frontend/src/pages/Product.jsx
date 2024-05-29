@@ -173,6 +173,7 @@ const Product = () => {
   let navigate = useNavigate();
   const { access_token } = getToken();
 const cust_id = localStorage.getItem("cust_id");
+localStorage.setItem('prod_id', id)
 
   useEffect(() => {
     async function getProduct() {
@@ -200,7 +201,7 @@ const cust_id = localStorage.getItem("cust_id");
   };
 
   const handleIncrement = () => {
-    if (quantity < 6) {
+    if (quantity < 6 && quantity < stockCount) {
       setQuantity((prevCount) => prevCount + 1);
     }
   };
