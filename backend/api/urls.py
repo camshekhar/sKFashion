@@ -2,7 +2,6 @@ from django.urls import path
 from . import views
 
 
-
 urlpatterns = [
     # Authentication URLs...
     path('user/registration/', views.userRegistration, name='register'),
@@ -39,16 +38,6 @@ urlpatterns = [
     path('productsReport/', views.productsReport),
     path('updateProdStock/<str:prod_id>/<str:quantity>/', views.updateProdStock),
     path('cancelOrder/<str:order_id>/', views.cancelOrder),
-
-
-
-
-
-
-
-
-
-     
 
 ]
 

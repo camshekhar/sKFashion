@@ -126,7 +126,7 @@ const MyOrders = () => {
       }
     }
     getMyOrders();
-  }, [cust_id, orders]);
+  }, [cust_id]);
 
   // console.log(orders);
  
