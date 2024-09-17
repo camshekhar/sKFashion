@@ -152,7 +152,7 @@ const Footer = () => {
                  <Icon.GeoAltFill style={{marginRight:"10px"}}/> At - DYPIMCA, Akurdi, Pune - 411035
               </ContactItem>
               <ContactItem>
-               <Icon.TelephoneForwardFill style={{marginRight:"10px"}}/> +91-<a href="tel:9999999999" style={{textDecoration: "None"}}>8409394478</a>
+               <Icon.TelephoneForwardFill style={{marginRight:"10px"}}/> +91-<a href="tel:9999999999" style={{textDecoration: "None"}}>9999999999</a>
               </ContactItem>
               <ContactItem>
               <Icon.EnvelopeOpenFill style={{marginRight:"10px"}}/><a href="mailto:contact@skfashion.com" style={{textDecoration: "None"}}>contact@skfashion.com</a>
