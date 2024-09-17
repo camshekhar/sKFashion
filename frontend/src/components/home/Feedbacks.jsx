@@ -67,7 +67,7 @@ const Feedbacks = () => {
   const prod_id = localStorage.getItem("prod_id");
   // console.log(prod_id)
 
-  if(prod_id != undefined){
+  // if(prod_id == undefined){}
     useEffect(() => {
       async function getFeedbacks() {
         try {
@@ -80,7 +80,7 @@ const Feedbacks = () => {
       }
       getFeedbacks();
     }, [prod_id, feeds]);
-  }
+
   // console.log(feeds);
   var show_feeds;
   if (feeds.length > 0) {
