@@ -67,19 +67,20 @@ const Feedbacks = () => {
   const prod_id = localStorage.getItem("prod_id");
   // console.log(prod_id)
 
-  useEffect(() => {
-    async function getFeedbacks() {
-      try {
-        const feedback = await axios.get(`/api/feedback/${prod_id}`);
-        setFeeds(feedback.data);
-        // console.log(feedback);
-      } catch (error) {
-        console.log(error);
+  if(prod_id != undefined){
+    useEffect(() => {
+      async function getFeedbacks() {
+        try {
+          const feedback = await axios.get(`/api/feedback/${prod_id}`);
+          setFeeds(feedback.data);
+          // console.log(feedback);
+        } catch (error) {
+          console.log(error);
+        }
       }
-    }
-    getFeedbacks();
-  }, [prod_id]);
-
+      getFeedbacks();
+    }, [prod_id, feeds]);
+  }
   // console.log(feeds);
   var show_feeds;
   if (feeds.length > 0) {
